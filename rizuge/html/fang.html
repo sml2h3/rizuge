@@ -1,0 +1,80 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>index</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <style>
+        body{
+            background-color: #eee;
+        }
+    </style>
+</head>
+<body>
+<div id="wrap" class="flex-wrap flex-vertical" >
+    <header class="border-b" id="fang_header">
+        <div class="location">
+
+        </div>
+    </header>
+</div>
+</body>
+</html>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript">
+    apiready = function(){
+        var param = {};
+        var map = api.require('bMap');
+        var systemType = api.systemType;
+//        if(systemType == 'ios'){
+            map.initMapSDK(function(ret) {
+                console.log('1232');
+                if (ret.status) {
+                    console.log('123');
+                    alert('地图初始化成功，可以从百度地图服务器检索信息了！');
+                }
+            });
+//        }
+        api.getLocation(
+            function (ret, err) {
+                if(ret && ret.status){
+                    //如果定位成功
+                    var longitude = ret.longitude;//经度
+                    var latitude = ret.latitude;//纬度
+                    param = {
+                        longitude : longitude,
+                        latitude : latitude
+                    };
+                    //根据经纬度获取位置
+//                    map.getNameFromCoords({
+//                        lon: longitude,
+//                        lat: latitude
+//                    }, function(ret, err) {
+//                        if (ret.status) {
+//                            console.log(JSON.stringify(ret));
+//                        }
+//                    });
+                    api.openFrame({
+                        name: 'fanglist',
+                        url: './fanglist.html',
+                        rect: {
+                            x: 0,
+                            y: 75,
+                            w: 'auto',
+                            h: 'auto',
+                            marginBottom: 50
+                        },
+                        bounces: true,
+                        pageParam: param
+                    });
+                } else{
+                    alert(err.msg)
+                }
+            }
+        );
+
+    };
+</script>

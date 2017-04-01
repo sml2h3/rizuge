@@ -1,0 +1,152 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>index</title>
+    <link rel="stylesheet" type="text/css" href="./css/api.css" />
+    <link rel="stylesheet" type="text/css" href="./css/style.css" />
+    <style>
+        header{ background-color: #f2f2f2;  line-height: 42px; font-size: 18px; text-align: center; }
+        body{
+            background-color: #eee;
+        }
+    </style>
+</head>
+<body>
+    <div id="wrap" class="flex-wrap flex-vertical" >
+        <header></header>
+        <div id="main" class="flex-con" >
+                
+        </div>
+    </div>
+</body>
+</html>
+<script type="text/javascript" src="./script/api.js"></script>
+<script type="text/javascript">
+    apiready = function(){
+        $api.fixStatusBar( $api.dom('header') );
+        api.setStatusBarStyle({
+            style: 'dark',
+            color: '#6ab494'
+        });
+        api.openFrame({
+            name: 'fang',
+            url: './html/fang.html',
+            rect: {
+                x: 0,
+                y: $api.dom('header').offsetHeight,
+                w: 'auto',
+                h: 'auto'
+            }
+        });
+        var NVTabBar = api.require('NVTabBar');
+        NVTabBar.open({
+            styles: {
+                bg: '#fff',
+                h: 50,
+                dividingLine: {
+                    width: 0.5,
+                    color: '#eee'
+                },
+                badge: {
+                    bgColor: '#ff0',
+                    numColor: '#fff',
+                    size: 6.0,
+                    fontSize:10 //数字类型,设置徽章字体大小,默认10。注意:仅支持iOS。
+                }
+            },
+            items: [{
+                w: api.winWidth / 4.0,
+                bg: {
+                    marginB: 0,
+                    image: 'rgba(0,0,0,0)'
+                },
+                iconRect: {
+                    w: 25.0,
+                    h: 25.0
+                },
+                icon: {
+                    normal: 'widget://icon/home.png',
+                    selected: 'widget://icon/home_active.png'
+                },
+                title: {
+                    text: '首页',
+                    size: 12.0,
+                    normal: '#696969',
+                    selected: '#0099FF',
+                    marginB: 6.0
+                }
+            }, {
+                w: api.winWidth / 4.0,
+                bg: {
+                    marginB: 0,
+                    image: 'rgba(0,0,0,0)'
+                },
+                iconRect: {
+                    w: 25.0,
+                    h: 25.0,
+                },
+                icon: {
+                    normal: 'widget://icon/msg.png',
+                    selected: 'widget://icon/msg_active.png'
+                },
+                title: {
+                    text: '消息',
+                    size: 12.0,
+                    normal: '#696969',
+                    selected: '#0099FF',
+                    marginB: 6.0
+                }
+            }, {
+                w: api.winWidth / 4.0,
+                bg: {
+                    marginB: 0,
+                    image: 'rgba(0,0,0,0)'
+                },
+                iconRect: {
+                    w: 25.0,
+                    h: 25.0,
+                },
+                icon: {
+                    normal: 'widget://icon/order.png',
+                    selected: 'widget://icon/order_active.png'
+                },
+                title: {
+                    text: '订单',
+                    size: 12.0,
+                    normal: '#696969',
+                    selected: '#0099FF',
+                    marginB: 6.0
+                }
+            }, {
+            w: api.winWidth / 4.0,
+                bg: {
+                marginB: 0,
+                    image: 'rgba(0,0,0,0)'
+            },
+            iconRect: {
+                w: 25.0,
+                    h: 25.0,
+            },
+            icon: {
+                normal: 'widget://icon/me.png',
+                selected: 'widget://icon/me_active.png'
+            },
+            title: {
+                text: '更多',
+                    size: 12.0,
+                    normal: '#696969',
+                    selected: '#0099FF',
+                    marginB: 6.0
+            }
+        }],
+            selectedIndex: 0
+        }, function(ret, err) {
+            if (ret) {
+
+            }
+        });
+    };
+</script>
