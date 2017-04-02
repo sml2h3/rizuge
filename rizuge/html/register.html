@@ -13,6 +13,22 @@
             background-color: #fff;
             height:100%;
         }
+
+        #reg_box{
+            margin-top: 40px;
+        }
+
+        #logo{
+            padding-top: 50px;
+        }
+        #logo img{
+            display: block;
+            margin:0 auto;
+            border:1px solid #eee;
+            height:80px;
+            width:80px;
+            border-radius: 40px;
+        }
     </style>
 </head>
 <body>
@@ -22,10 +38,22 @@
     </a>
     <div class="aui-title">注册日租哥</div>
 </header>
-<div class="aui-list aui-form-list">
-    <form action="">
-
-    </form>
+<div id="logo">
+    <img src="../image/logo.png" alt="">
+</div>
+<div class="aui-content">
+    <ul class="aui-list aui-form-list" id="reg_box">
+        <li class="aui-list-item">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-label">
+                    手机号
+                </div>
+                <div class="aui-list-item-input">
+                    <input type="tel" placeholder="手机号">
+                </div>
+            </div>
+        </li>
+    </ul>
 </div>
 </body>
 </html>

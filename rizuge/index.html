@@ -10,6 +10,7 @@
     <style>
         header{ background-color: #f2f2f2;  line-height: 42px; font-size: 18px; text-align: center; }
         body{
+            padding: 0px;
             background-color: #eee;
         }
     </style>
@@ -28,7 +29,7 @@
 
     apiready = function(){
         var screenHeight = api.winHeight;
-        $api.fixStatusBar( $api.dom('header') );
+//        $api.fixStatusBar( $api.dom('header') );
         api.setStatusBarStyle({
             style: 'dark',
             color: '#6ab494'
@@ -155,7 +156,7 @@
                 switch(ret.index){
                     case 0:
                         //首页
-                        console.log(screenHeight)
+                        console.log(screenHeight);
                         api.openFrame({
                             name: 'fang',
                             url: './html/fang.html',
@@ -182,9 +183,9 @@
                             url: './html/more.html',
                             rect: {
                                 x: 0,
-                                y: $api.dom('header').offsetHeight,
+                                y: 0,
                                 w: 'auto',
-                                h: screenHeight - 70
+                                h: screenHeight - 50
                             },
                             bounces:false
                         });

@@ -85,31 +85,37 @@ html,body {  font-size:14px; height:100%;  }
 }
 .distance_span, .wz_span, .fx_span, .jg_span{
     color: #707070;
-    line-height: 16px;
+    line-height: 40px;
     font-size:14px;
     height: 16px;
     display: inline-block;
     position: relative;
-    top:-2px;
+    /*top:10px;*/
 }
-.distance_div{
-    width:20%;
+.wz_span, .fx_span, .jg_span{
+    /*top:5px;*/
 }
-.wz_div{
-    text-align: center;
-    width:35%;
+.distance_span{
+    top:-3px;
 }
-.fx_div{
-    text-align: center;
-    width:20%;
-}
+/*.distance_div{*/
+    /*width:20%;*/
+/*}*/
+/*.wz_div{*/
+    /*text-align: center;*/
+    /*width:35%;*/
+/*}*/
+/*.fx_div{*/
+    /*text-align: center;*/
+    /*width:20%;*/
+/*}*/
 .jg_span{
     color: red;
 }
-.jg_div{
-    text-align: center;
-    width:20%;
-}
+/*.jg_div{*/
+    /*text-align: center;*/
+    /*width:20%;*/
+/*}*/
 #search{
     width: 95%;
     margin-top: 11px;

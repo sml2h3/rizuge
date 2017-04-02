@@ -13,6 +13,7 @@
             height:0px;
         }
         body{
+            padding-top: 20px;
             background-color: #eee;
         }
     </style>
@@ -24,10 +25,10 @@
             <i class="iconfont icon-sanjiao"></i>
         </a>
     </div>
-    <div class="searchbox aui-col-xs-6">
+    <div class="searchbox aui-col-xs-5">
         <input type="text" id="search" placeholder="商圈、景点、街道、小区">
     </div>
-    <div class="optionbox aui-col-xs-3">
+    <div class="optionbox aui-col-xs-4 aui-text-center">
         <a>
             <i class="iconfont icon-shaixuan"></i>
             筛选
@@ -53,50 +54,56 @@
             map.initMapSDK(function(ret,err) {
 
                 if (ret.status) {
-                    map.getLocation({
-                        accuracy: '10m',
-                        autoStop: true,
-                        filter: 1
-                    }, function(ret, err) {
-                        console.log(JSON.stringify(ret));
-                        if (ret.status) {
-                            var lat = ret.lat;
-                            var lon = ret.lon;
-                            param = {
-                                longitude: lon,
-                                latitude: lat
-                            };
-                            map.getNameFromCoords({
-                                lon: lon,
-                                lat: lat
-                            }, function(ret, err) {
-                                if (ret.status) {
-                                    var cityName = ret.city;
-                                    console.log(cityName);
-                                    var location_city = document.getElementById('location_city');
-                                    $api.text(location_city, cityName);
-                                }
-                            });
-                            api.openFrame({
-                                name: 'fanglist',
-                                url: './fanglist.html',
-                                rect: {
-                                    x: 0,
-                                    y: 75,
-                                    w: 'auto',
-                                    h: 'auto',
-                                    marginBottom: 50
-                                },
-                                bounces: true,
-                                pageParam: param
-                            });
-                        } else {
-                            alert(err.code);
-                        }
-                    });
+                    getLocation()
                 }else{
                     alert("定位失败，错误码:" + err.code);
                     return;
+                }
+            });
+        }else{
+            getLocation()
+        }
+        function getLocation(){
+            map.getLocation({
+                accuracy: '10m',
+                autoStop: true,
+                filter: 1
+            }, function(ret, err) {
+                console.log(JSON.stringify(ret));
+                if (ret.status) {
+                    var lat = ret.lat;
+                    var lon = ret.lon;
+                    param = {
+                        longitude: lon,
+                        latitude: lat
+                    };
+                    map.getNameFromCoords({
+                        lon: lon,
+                        lat: lat
+                    }, function(ret, err) {
+                        if (ret.status) {
+                            console.log(JSON.stringify(ret));
+                            var cityName = ret.city;
+                            console.log(cityName);
+                            var location_city = document.getElementById('location_city');
+                            $api.text(location_city, cityName);
+                        }
+                    });
+                    api.openFrame({
+                        name: 'fanglist',
+                        url: './fanglist.html',
+                        rect: {
+                            x: 0,
+                            y: 75,
+                            w: 'auto',
+                            h: 'auto',
+                            marginBottom: 50
+                        },
+                        bounces: true,
+                        pageParam: param
+                    });
+                } else {
+                    alert(err.code);
                 }
             });
         }

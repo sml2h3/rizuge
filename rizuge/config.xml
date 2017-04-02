@@ -17,6 +17,7 @@
 	<preference name="statusBarAppearance" value="true"/>
 	<permission name="location"/>
 	<permission name="internet"/>
+	<preference name="softInputMode" value="pan"/>
 	<access origin="*"/>
 	<preference name="customRefreshHeader" value="UIPullRefreshMotive"/>
 	<feature name="bMap">
