@@ -1,0 +1,109 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>index</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/aui.css">
+    <style>
+
+        body{
+            background-color: #fff;
+            height:100%;
+        }
+        #logo{
+            padding-top: 50px;
+        }
+        #logo img{
+            display: block;
+            margin:0 auto;
+            border:1px solid #eee;
+            height:80px;
+            width:80px;
+            border-radius: 40px;
+        }
+        #login_box{
+            margin-top: 40px;
+            margin-bottom: 20px;
+        }
+        .aui-btn-block{
+            border:1px solid #eee;
+        }
+        #register_link{
+            display: block;
+            margin-top:20px;
+            font-size:12px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<header class="aui-bar aui-bar-nav aui-bar-light">
+    <a class="aui-pull-left aui-btn">
+        <span class="aui-iconfont aui-icon-left" tapmode=""></span>
+    </a>
+    <div class="aui-title">登录日租哥</div>
+</header>
+<div class="aui-content">
+    <div id="logo">
+        <img src="../image/logo.png" alt="">
+    </div>
+    <ul class="aui-list aui-form-list" id="login_box">
+        <li class="aui-list-item">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-label-icon">
+                    <i class="aui-iconfont aui-icon-mobile"></i>
+                </div>
+                <div class="aui-list-item-input">
+                    <input type="tel" placeholder="Phone">
+                </div>
+            </div>
+        </li>
+        <li class="aui-list-item">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-label-icon">
+                    <i class="aui-iconfont aui-icon-lock"></i>
+                </div>
+                <div class="aui-list-item-input">
+                    <input type="password" placeholder="Password">
+                </div>
+                <div class="aui-list-item-label-icon">
+                    <i class="aui-iconfont aui-icon-display"></i>
+                </div>
+            </div>
+        </li>
+    </ul>
+    <div class="aui-btn aui-btn-block aui-btn-outlined aui-btn-sm">立即登录</div>
+    <a id="register_link" tapmode="" href="javascript:void(0)">没有账号？立即注册</a>
+</div>
+</body>
+</html>
+<script type="text/javascript" src="../script/api.js"></script>
+<script>
+    apiready = function () {
+        api.parseTapmode();
+        $api.fixStatusBar($api.dom('header'));
+        $api.addEvt($api.dom('.aui-icon-left'),'click',function () {
+            api.closeFrame({
+                name: 'login'
+            });    
+        });
+        $api.addEvt($api.dom('#register_link'),'click',function () {
+            api.openFrame({
+                name: 'register',
+                url: './register.html',
+                rect: {
+                    x: 0,
+                    y: 0,
+                    w: 'auto',
+                    h: 'auto'
+                },
+                pageParam: {name: 'pageparam'},
+                bounces: true
+            });
+        })
+    }
+</script>

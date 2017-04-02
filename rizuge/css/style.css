@@ -14,8 +14,40 @@ html,body {  font-size:14px; height:100%;  }
 #wrap{ height: 100%; }
 .location{
     height: 100%;
-    width:20%;
-    border:1px solid blue;
+    /*border:1px solid blue;*/
+    text-align: center;
+    line-height: 52px;
+    font-size:16px;
+    font-weight: bolder;
+    color: #707070;
+    display: inline-block;
+}
+.location a{
+    color: #707070;
+    display: block;
+}
+.searchbox{
+    text-align: center;
+    display: inline-block;
+    height: 100%;
+    line-height: 52px;
+    /*border:1px solid red;*/
+
+}
+.searchbox input{
+    display: block;
+}
+.optionbox{
+    height:100%;
+    display: inline-block;
+    line-height: 52px;
+}
+.optionbox a{
+    display: inline-block;
+    color:#707070;
+}
+#option_sr{
+    color:red;
 }
 .fangObject{
     background-color: #eee;
@@ -49,8 +81,6 @@ html,body {  font-size:14px; height:100%;  }
     border-top-right-radius: 10px;
 }
 #fang_header{
-    height:50px;
-    border:1px solid yellow;
     background-color: white;
 }
 .distance_span, .wz_span, .fx_span, .jg_span{
@@ -80,6 +110,21 @@ html,body {  font-size:14px; height:100%;  }
     text-align: center;
     width:20%;
 }
+#search{
+    width: 95%;
+    margin-top: 11px;
+    margin-bottom: 11px;
+    height:30px;
+    line-height:30px;
+    border:0.5px solid #e5e5e5;
+    background-color: #eee;
+    border-radius: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+#search::placeholder{
+    font-size: 14px;
+}
 
 @font-face {font-family: "iconfont";
     src: url('../icon/iconfont.eot?t=1490984048895'); /* IE9*/
@@ -102,7 +147,15 @@ html,body {  font-size:14px; height:100%;  }
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
-
+.icon-sanjiao{
+    font-size:10px;
+}
+.icon-shaixuan{
+    font-size: 15px;
+}
+.icon-xin{
+    font-size: 15px;
+}
 .icon-location:before { content: "\e600"; }
 
 .icon-order:before { content: "\e60b"; }
@@ -119,6 +172,10 @@ html,body {  font-size:14px; height:100%;  }
 
 .icon-anfangzaijia1:before { content: "\e730"; }
 
+.icon-shaixuan:before { content: "\e62d"; }
+
+.icon-xin:before { content: "\e631"; }
+
 .icon-shouye:before { content: "\e604"; }
 
 .icon-icon_cook:before { content: "\e608"; }
@@ -129,7 +186,8 @@ html,body {  font-size:14px; height:100%;  }
 
 .icon-shouyeshouye:before { content: "\e60c"; }
 
+.icon-sanjiao:before { content: "\e616"; }
+
 .icon-qiehuanfangdong:before { content: "\e693"; }
 
 .icon-xishuyongpin:before { content: "\e626"; }
-

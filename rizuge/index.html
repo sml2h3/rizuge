@@ -18,14 +18,16 @@
     <div id="wrap" class="flex-wrap flex-vertical" >
         <header></header>
         <div id="main" class="flex-con" >
-                
+
         </div>
     </div>
 </body>
 </html>
 <script type="text/javascript" src="./script/api.js"></script>
 <script type="text/javascript">
+
     apiready = function(){
+        var screenHeight = api.winHeight;
         $api.fixStatusBar( $api.dom('header') );
         api.setStatusBarStyle({
             style: 'dark',
@@ -40,7 +42,8 @@
                 w: 'auto',
                 h: 'auto'
             },
-            bounces:false
+            bounces:false,
+            scrollToTop:true
         });
         var NVTabBar = api.require('NVTabBar');
         NVTabBar.open({
@@ -51,11 +54,13 @@
                     width: 0.5,
                     color: '#eee'
                 },
-                badge: {
-                    bgColor: '#ff0',
-                    numColor: '#fff',
-                    size: 6.0,
-                    fontSize:10 //数字类型,设置徽章字体大小,默认10。注意:仅支持iOS。
+                badge: {            //（可选项）JSON对象；徽章样式配置；若不传则去内部字段默认值
+                    bgColor: '#FF0000', //（可选项）字符串类型；徽章背景色，支持rgb、rgba、#；默认：#ff0
+                    numColor: '#fff',//（可选项）字符串类型；徽章数字字体颜色，支持rgb、rgba、#；默认：#fff
+                    size: 6.0,       //（可选项）数字类型；徽章半径大小；默认值：6.0
+                    fontSize:10,      // (可选项) 数字类型;设置徽章字体大小;默认值: 10 ;注意:仅支持iOS。
+                    centerX: 20.0,    //（可选项）数字类型；徽章中心点坐标（相对于所属item的背景面板坐标系）；默认值：icon图标的右上角
+                    centerY: 5.0     //（可选项）数字类型；徽章中心点坐标（相对于所属item的背景面板坐标系）；默认值：icon图标的右上角
                 }
             },
             items: [{
@@ -98,7 +103,8 @@
                     size: 12.0,
                     normal: '#696969',
                     selected: '#0099FF',
-                    marginB: 6.0
+                    marginB: 6.0,
+                    badge:'2'
                 }
             }, {
                 w: api.winWidth / 4.0,
@@ -146,8 +152,50 @@
             selectedIndex: 0
         }, function(ret, err) {
             if (ret) {
-
+                switch(ret.index){
+                    case 0:
+                        //首页
+                        console.log(screenHeight)
+                        api.openFrame({
+                            name: 'fang',
+                            url: './html/fang.html',
+                            rect: {
+                                x: 0,
+                                y: $api.dom('header').offsetHeight,
+                                w: 'auto',
+                                h: screenHeight - 75
+                            },
+                            bounces:true,
+                            scrollToTop:true
+                        });
+                        break;
+                    case 1:
+                        //消息
+                        break;
+                    case 2:
+                        //订单
+                        break;
+                    case 3:
+                        //更多
+                        api.openFrame({
+                            name: 'more',
+                            url: './html/more.html',
+                            rect: {
+                                x: 0,
+                                y: $api.dom('header').offsetHeight,
+                                w: 'auto',
+                                h: screenHeight - 70
+                            },
+                            bounces:false
+                        });
+                        break;
+                }
             }
         });
+//        NVTabBar.setBadge({
+//            index: 3,
+//            badge: '3'
+//        });
+
     };
 </script>

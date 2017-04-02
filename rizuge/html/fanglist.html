@@ -13,6 +13,7 @@
             height:0px;
         }
     </style>
+    <link rel="stylesheet" href="../css/aui.css">
 </head>
 <body>
 <div id="wrap" class="flex-wrap flex-vertical" >
@@ -26,8 +27,8 @@
 <script type="text/javascript" src="../script/api.js"></script>
 <script>
     apiready = function () {
-        alert();
         var location_param = api.pageParam;
+        console.log(JSON.stringify(location_param));
         api.setCustomRefreshHeaderInfo({
             bgColor: '#eee',
             tips: {

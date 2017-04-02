@@ -5,22 +5,39 @@
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
     <title>index</title>
+    <link rel="stylesheet" href="../css/aui.css">
     <link rel="stylesheet" type="text/css" href="../css/api.css" />
     <link rel="stylesheet" type="text/css" href="../css/style.css" />
     <style>
+        html{
+            height:0px;
+        }
         body{
             background-color: #eee;
         }
     </style>
 </head>
 <body>
-<div id="wrap" class="flex-wrap flex-vertical" >
-    <header class="border-b" id="fang_header">
-        <div class="location">
-
-        </div>
-    </header>
-</div>
+<header id="fang_header" class="aui-content">
+    <div class="location aui-col-xs-3">
+        <a><span id="location_city"></span>
+            <i class="iconfont icon-sanjiao"></i>
+        </a>
+    </div>
+    <div class="searchbox aui-col-xs-6">
+        <input type="text" id="search" placeholder="商圈、景点、街道、小区">
+    </div>
+    <div class="optionbox aui-col-xs-3">
+        <a>
+            <i class="iconfont icon-shaixuan"></i>
+            筛选
+        </a>
+        <a id="option_sr">
+            <i class="iconfont icon-xin"></i>
+            共享
+        </a>
+    </div>
+</header>
 </body>
 </html>
 <script type="text/javascript" src="../script/api.js"></script>
@@ -37,13 +54,29 @@
 
                 if (ret.status) {
                     map.getLocation({
-                        accuracy: '100m',
+                        accuracy: '10m',
                         autoStop: true,
                         filter: 1
                     }, function(ret, err) {
                         console.log(JSON.stringify(ret));
                         if (ret.status) {
-                            alert(JSON.stringify(ret));
+                            var lat = ret.lat;
+                            var lon = ret.lon;
+                            param = {
+                                longitude: lon,
+                                latitude: lat
+                            };
+                            map.getNameFromCoords({
+                                lon: lon,
+                                lat: lat
+                            }, function(ret, err) {
+                                if (ret.status) {
+                                    var cityName = ret.city;
+                                    console.log(cityName);
+                                    var location_city = document.getElementById('location_city');
+                                    $api.text(location_city, cityName);
+                                }
+                            });
                             api.openFrame({
                                 name: 'fanglist',
                                 url: './fanglist.html',

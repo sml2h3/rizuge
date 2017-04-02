@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>index</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <!--<link rel="stylesheet" type="text/css" href="../css/style.css" />-->
+    <link rel="stylesheet" href="../css/aui.css">
+    <link rel="stylesheet" href="../css/aui-skin.css">
+    <style>
+        header{
+            border-bottom:1px solid #eee;
+        }
+    </style>
+</head>
+<body>
+<header class="aui-bar aui-bar-nav">更多</header>
+<div>
+    <ul class="aui-list aui-media-list" id="list">
+        <li class="aui-list-item aui-list-item-middle" id="userbox" tapmode>
+            <div class="aui-media-list-item-inner">
+                <div class="aui-list-item-media" style="width: 3rem;">
+                    <img src="../image/demo5.png" class="aui-img-round aui-list-img-sm">
+                </div>
+                <div class="aui-list-item-inner aui-list-item-arrow">
+                    <div class="aui-list-item-text">
+                        <div class="aui-list-item-title aui-font-size-14">未登录</div>
+                        <div class="aui-list-item-right aui-label aui-label-primary">请先登录</div>
+                    </div>
+                    <div class="aui-list-item-text">
+                        登陆后可显示个性签名
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>
+</body>
+</html>
+<script type="text/javascript" src="../script/api.js"></script>
+<script src="../script/aui-tab.js"></script>
+<script>
+    apiready = function () {
+        api.parseTapmode();
+        var access_token = $api.getStorage('token');
+        console.log(access_token);
+        el = document.getElementById('userbox');
+        $api.addEvt(el, 'click', function(){
+            if(access_token === undefined){
+                api.openFrame({
+                    name: 'login',
+                    url: './login.html',
+                    rect: {
+                        x: 0,
+                        y: 0,
+                        w: 'auto',
+                        h: 'auto'
+                    },
+                    bounces: false
+                });
+            }
+        },false);
+
+    };
+</script>
