@@ -164,10 +164,11 @@
                                 x: 0,
                                 y: $api.dom('header').offsetHeight,
                                 w: 'auto',
-                                h: screenHeight - 75
+                                h: screenHeight - 50
                             },
-                            bounces:true,
-                            scrollToTop:true
+                            bounces:false,
+                            scrollToTop:true,
+                            reload:true
                         });
                         break;
                     case 1:
@@ -188,6 +189,7 @@
                                 h: screenHeight - 50
                             },
                             bounces:false
+//                            reload:true
                         });
                         break;
                 }

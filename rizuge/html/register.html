@@ -49,10 +49,41 @@
                     手机号
                 </div>
                 <div class="aui-list-item-input">
-                    <input type="tel" placeholder="手机号">
+                    <input type="tel" placeholder="手机号" id="phone">
                 </div>
             </div>
         </li>
+        <li class="aui-list-item">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-label">
+                    验证码
+                </div>
+                <div class="aui-list-item-input" style="margin-left: 40px;">
+                    <input type="text" placeholder="短信验证码" id="code">
+                </div>
+                <div class="aui-list-item-btn">
+                    <div class="aui-btn aui-btn-primary aui-btn-block aui-btn-outlined aui-btn-sm" id="sendsms" tapmode="">
+                        发送验证码
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="aui-list-item">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-label">
+                    密&nbsp;&nbsp;&nbsp;&nbsp;码
+                </div>
+                <div class="aui-list-item-input" style="margin-left: 10px;">
+                    <input type="password" placeholder="密码" id="password">
+                </div>
+                <div class="aui-list-item-label-icon">
+                    <i class="aui-iconfont aui-icon-display"></i>
+                </div>
+            </div>
+        </li>
+        <div class="aui-btn aui-btn-primary aui-btn-block aui-btn-outlined aui-btn-sm" id="register" style="margin-top: 20px;">
+            立即注册
+        </div>
     </ul>
 </div>
 </body>
@@ -67,5 +98,121 @@
                 name: 'register'
             });
         });
+
+        //发送验证码
+        $api.addEvt($api.dom('#sendsms'),'click',function () {
+            console.log($api.hasCls($api.dom('#sendsms'),'aui-btn-primary'));
+            if(!$api.hasCls($api.dom('#sendsms'),'aui-btn-primary')){
+                return;
+            }
+            var phone = $api.val($api.dom('#phone'));
+            if(phone == ""){
+                alert('请填写手机号码');
+            }else{
+                api.ajax({
+                    url: 'http://rzg.9170.gs/api/user/sendsms',
+                    method: 'post',
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false,
+                    data: {
+                        values: {phone: phone}
+                    }
+                }, function (ret, err) {
+                    if(ret){
+                        if(ret.result === 2000){
+                            console.log(JSON.stringify(ret));
+//                            var err_code = ret.reason.result.err_code;
+                            if( 'code' in ret.reason){
+                                //短信有问题
+                                var code = ret.reason.code;
+                                switch(code){
+                                    case 15:
+                                        alert('1分钟内不允许连续给同一个号码发送验证码');
+                                        break;
+                                }
+                            }else{
+                                var err_code = ret.reason.result.err_code;
+                                switch(err_code){
+                                    case "0":
+                                        $api.toast("已成功发送验证码");
+                                        var sendsms = document.getElementById('sendsms');
+                                        $api.removeCls(sendsms,'aui-btn-primary');
+                                        var num = 60;
+                                        var target = setInterval(function(){
+                                            $api.text(sendsms, num+"s");
+                                            if(num < 1){
+                                                clearInterval(target)
+                                                $api.addCls(sendsms,'aui-btn-primary');
+                                                $api.text(sendsms, "发送验证码");
+                                            }
+                                            num -= 1;
+                                        },1000);
+                                        break;
+                                }
+                            }
+                        }else{
+                            alert(ret.reason)
+                        }
+                    }else{
+                        alert("错误码:"+err.code+"，错误描述:"+err.msg)
+                    }
+                });
+            }
+        });
+        //注册
+        $api.addEvt($api.dom('#register'),'click',function () {
+
+            var is_reg = false;
+            var phone = $api.val($api.dom('#phone'));
+            var code = $api.val($api.dom('#code'));
+            var password = $api.val($api.dom('#password'));
+            if(phone === ""){
+                alert("请填写手机号码");
+                return;
+            }
+            if(code === ""){
+                alert("请填写短信验证码");
+                return;
+            }
+            if(password === ""){
+                alert("请填写登录密码");
+                return;
+            }
+            api.ajax({
+                url: 'http://rzg.9170.gs/api/user/register',
+                method: 'post',
+                timeout: 30,
+                dataType: 'json',
+                returnAll: false,
+                data: {
+                    values: {
+                        phone:phone,
+                        password:password,
+                        code:code
+                    }
+                }
+            }, function (ret, err) {
+                result = ret.result;
+                switch (result){
+                    case 1000:
+                        is_reg = true;
+                        api.closeFrame({
+                            name: 'register'
+                        });
+                        break;
+                    default:
+                        api.toast(
+                            {
+                                msg: ret.reason,
+                                duration: 2000,
+                                location: 'bottom'
+                            }
+                        );
+                        break;
+
+                }
+            });
+        })
     }
 </script>
