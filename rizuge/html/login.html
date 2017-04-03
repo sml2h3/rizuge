@@ -58,7 +58,7 @@
                     <i class="aui-iconfont aui-icon-mobile"></i>
                 </div>
                 <div class="aui-list-item-input">
-                    <input type="tel" placeholder="Phone">
+                    <input type="tel" placeholder="Phone" id="phone">
                 </div>
             </div>
         </li>
@@ -68,7 +68,7 @@
                     <i class="aui-iconfont aui-icon-lock"></i>
                 </div>
                 <div class="aui-list-item-input">
-                    <input type="password" placeholder="Password">
+                    <input type="password" placeholder="Password" id="password">
                 </div>
                 <div class="aui-list-item-label-icon">
                     <i class="aui-iconfont aui-icon-display"></i>
@@ -76,7 +76,7 @@
             </div>
         </li>
     </ul>
-    <div class="aui-btn aui-btn-block aui-btn-outlined aui-btn-sm">立即登录</div>
+    <div class="aui-btn aui-btn-block aui-btn-outlined aui-btn-sm" id="login">立即登录</div>
     <a id="register_link" tapmode="" href="javascript:void(0)">没有账号？立即注册</a>
 </div>
 </body>
@@ -101,9 +101,75 @@
                     w: 'auto',
                     h: 'auto'
                 },
-                pageParam: {name: 'pageparam'},
-                bounces: false
+                bounces: false,
+                vScrollBarEnabled: false,
+                scrollEnabled: false
             });
-        })
+        });
+        $api.addEvt($api.dom('#login'),'click',function(){
+            var phone = $api.val($api.dom('#phone'));
+            var password = $api.val($api.dom('#password'));
+            if(phone === ""){
+                api.toast(
+                    {
+                        msg: "请填写手机号码",
+                        duration: 2000,
+                        location: 'bottom'
+                    }
+                );
+                return;
+            }
+            if(password === ""){
+                api.toast(
+                    {
+                        msg: "请填写登录密码",
+                        duration: 2000,
+                        location: 'bottom'
+                    }
+                );
+                return;
+            }
+            api.ajax({
+                url: 'http://rzg.9170.gs/api/user/login',
+                method: 'post',
+                timeout: 30,
+                dataType: 'json',
+                returnAll: false,
+                data: {
+                    values: {
+                        phone: phone,
+                        password: password
+                    }
+                }
+            }, function (ret, err) {
+                if(ret){
+                    switch(ret.result){
+                        case 3000:
+                            //登录成功
+                            api.setPrefs({
+                                key: 'access_token',
+                                value: ret.reason
+                            });
+                            api.toast(
+                                {
+                                    msg: "登陆成功",
+                                    duration: 2000,
+                                    location: 'bottom',
+                                    global: true
+                                }
+                            );
+
+                            api.closeFrame({
+                                name: 'login'
+                            });
+                            break;
+                        default:
+                            alert(ret.reason)
+                    }
+                }else{
+                   alert(err.msg)
+                }
+            });
+        });
     }
 </script>

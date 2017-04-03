@@ -106,8 +106,14 @@
                 return;
             }
             var phone = $api.val($api.dom('#phone'));
-            if(phone == ""){
-                alert('请填写手机号码');
+            if(phone === ""){
+                api.toast(
+                    {
+                        msg: "请填写手机号码",
+                        duration: 2000,
+                        location: 'bottom'
+                    }
+                );
             }else{
                 api.ajax({
                     url: 'http://rzg.9170.gs/api/user/sendsms',
@@ -135,7 +141,13 @@
                                 var err_code = ret.reason.result.err_code;
                                 switch(err_code){
                                     case "0":
-                                        $api.toast("已成功发送验证码");
+                                        api.toast(
+                                            {
+                                                msg: "已成功发送验证码",
+                                                duration: 2000,
+                                                location: 'bottom'
+                                            }
+                                        );
                                         var sendsms = document.getElementById('sendsms');
                                         $api.removeCls(sendsms,'aui-btn-primary');
                                         var num = 60;
@@ -168,15 +180,33 @@
             var code = $api.val($api.dom('#code'));
             var password = $api.val($api.dom('#password'));
             if(phone === ""){
-                alert("请填写手机号码");
+                api.toast(
+                    {
+                        msg: "请填写手机号码",
+                        duration: 2000,
+                        location: 'bottom'
+                    }
+                );
                 return;
             }
             if(code === ""){
-                alert("请填写短信验证码");
+                api.toast(
+                    {
+                        msg: "请填写短信验证码",
+                        duration: 2000,
+                        location: 'bottom'
+                    }
+                );
                 return;
             }
             if(password === ""){
-                alert("请填写登录密码");
+                api.toast(
+                    {
+                        msg: "请填写登录密码",
+                        duration: 2000,
+                        location: 'bottom'
+                    }
+                );
                 return;
             }
             api.ajax({
@@ -195,7 +225,14 @@
             }, function (ret, err) {
                 result = ret.result;
                 switch (result){
-                    case 1000:
+                    case '1000':
+                        api.toast(
+                            {
+                                msg: "注册成功",
+                                duration: 2000,
+                                location: 'bottom'
+                            }
+                        );
                         is_reg = true;
                         api.closeFrame({
                             name: 'register'
