@@ -69,7 +69,6 @@
                 autoStop: true,
                 filter: 1
             }, function(ret, err) {
-                console.log(JSON.stringify(ret));
                 if (ret.status) {
                     var lat = ret.lat;
                     var lon = ret.lon;
@@ -82,9 +81,7 @@
                         lat: lat
                     }, function(ret, err) {
                         if (ret.status) {
-                            console.log(JSON.stringify(ret));
                             var cityName = ret.city;
-                            console.log(cityName);
                             var location_city = document.getElementById('location_city');
                             $api.text(location_city, cityName);
                         }
@@ -96,8 +93,8 @@
                             x: 0,
                             y: 75,
                             w: 'auto',
-                            h: 'auto',
-                            marginBottom: 50
+                            h: api.winHeight - 125
+//                            marginBottom: 50
                         },
                         bounces: true,
                         pageParam: param

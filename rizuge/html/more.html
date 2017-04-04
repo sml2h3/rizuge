@@ -23,12 +23,12 @@
         <li class="aui-list-item aui-list-item-middle" id="userbox" tapmode>
             <div class="aui-media-list-item-inner">
                 <div class="aui-list-item-media" style="width: 3rem;">
-                    <img src="../image/demo5.png" class="aui-img-round aui-list-img-sm">
+                    <img src="../icon/tx.png" id="tx" class="aui-img-round aui-list-img-sm">
                 </div>
                 <div class="aui-list-item-inner aui-list-item-arrow">
                     <div class="aui-list-item-text">
-                        <div class="aui-list-item-title aui-font-size-14">未登录</div>
-                        <div class="aui-list-item-right aui-label aui-label-primary">请先登录</div>
+                        <div class="aui-list-item-title aui-font-size-14" id="nickname">未登录</div>
+                        <div class="aui-list-item-right aui-label aui-label-primary" id="status">请先登录</div>
                     </div>
                     <div class="aui-list-item-text">
                         登陆后可显示个性签名
@@ -45,8 +45,57 @@
 <script>
     apiready = function () {
         api.parseTapmode();
-        var access_token = $api.getStorage('token');
-        console.log(access_token);
+        var access_token = $api.getStorage('access_token');
+        if(access_token !== undefined){
+            api.ajax({
+                url: 'http://rzg.9170.gs/api/user/userinfo',
+                method: 'post',
+                timeout: 30,
+                dataType: 'json',
+                returnAll: false,
+                data: {
+                    values: {
+                        access_token: access_token
+                    }
+                }
+            }, function (ret, err) {
+                if(ret){
+                    switch(ret.result){
+                        case "4000":
+                            //已经认证过的用户
+                            break;
+                        case "4002":
+                            //未认证的用户
+                            var info = ret.reason;
+                            var username = info.username;
+                            var phone =  info.phone;
+                            var tx = info.txpic;
+                            var nickname = "";
+                            if(username === null){
+                                nickname = "用户"+phone;
+                            }else{
+                                nickname = username;
+                            }
+                            if(tx !== undefined){
+                                $api.attr($api.dom('#tx'),'src',tx);
+                            }
+                            $api.text($api.dom('#nickname'),nickname);
+                            var status = document.getElementById('status')
+                            $api.removeCls(status,'aui-label-primary');
+                            $api.addCls(status,'aui-label-warning');
+                            $api.text($api.dom('#status'),"尚未实名认证");
+                            break;
+                        case "4001":
+                            //需要重新登录
+                            break;
+                        default:
+                            alert(ret.reason)
+                    }
+                }else{
+                    alert(err.msg)
+                }
+            });
+        }
         el = document.getElementById('userbox');
         $api.addEvt(el, 'click', function(){
             if(access_token === undefined){
@@ -63,8 +112,65 @@
                     vScrollBarEnabled: false,
                     scrollEnabled: false
                 });
+            }else{
             }
         },false);
+        api.addEventListener({
+            //登陆成功以后的回调
+            name: 'haslogin'
+        }, function(ret, err) {
+            console.log(JSON.stringify(ret));
+            var values = ret.value;
+            access_token = values.access_token;
+            api.ajax({
+                url: 'http://rzg.9170.gs/api/user/userinfo',
+                method: 'post',
+                timeout: 30,
+                dataType: 'json',
+                returnAll: false,
+                data: {
+                    values: {
+                        access_token: access_token
+                    }
+                }
+            }, function (ret, err) {
+                if(ret){
+                    switch(ret.result){
+                        case "4000":
+                            //已经认证过的用户
+                            break;
+                        case "4002":
+                            //未认证的用户
+                            var info = ret.reason;
+                            var username = info.username;
+                            var phone =  info.phone;
+                            var tx = info.txpic;
+                            var nickname = "";
+                            if(username === null){
+                                nickname = "用户"+phone;
+                            }else{
+                                nickname = username;
+                            }
+                            if(tx !== undefined){
+                                $api.attr($api.dom('#tx'),'src',tx);
+                            }
+                            $api.text($api.dom('#nickname'),nickname);
+                            var status = document.getElementById('status')
+                            $api.removeCls(status,'aui-label-primary');
+                            $api.addCls(status,'aui-label-warning');
+                            $api.text($api.dom('#status'),"尚未实名认证");
+                            break;
+                        case "4001":
+                            //需要重新登录
+                            break;
+                        default:
+                            alert(ret.reason)
+                    }
+                }else{
+                    alert(err.msg)
+                }
+            });
+        });
 
     };
 </script>

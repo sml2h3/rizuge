@@ -26,25 +26,12 @@
 </html>
 <script type="text/javascript" src="./script/api.js"></script>
 <script type="text/javascript">
-
     apiready = function(){
         var screenHeight = api.winHeight;
 //        $api.fixStatusBar( $api.dom('header') );
         api.setStatusBarStyle({
             style: 'dark',
             color: '#6ab494'
-        });
-        api.openFrame({
-            name: 'fang',
-            url: './html/fang.html',
-            rect: {
-                x: 0,
-                y: $api.dom('header').offsetHeight,
-                w: 'auto',
-                h: 'auto'
-            },
-            bounces:false,
-            scrollToTop:true
         });
         var NVTabBar = api.require('NVTabBar');
         NVTabBar.open({
@@ -156,7 +143,6 @@
                 switch(ret.index){
                     case 0:
                         //首页
-                        console.log(screenHeight);
                         api.openFrame({
                             name: 'fang',
                             url: './html/fang.html',
@@ -167,8 +153,8 @@
                                 h: screenHeight - 50
                             },
                             bounces:false,
-                            scrollToTop:true,
-                            reload:true
+                            scrollToTop:true
+//                            reload:true
                         });
                         break;
                     case 1:
@@ -189,11 +175,22 @@
                                 h: screenHeight - 50
                             },
                             bounces:false
-//                            reload:true
                         });
                         break;
                 }
             }
+        });
+        api.openFrame({
+            name: 'fang',
+            url: './html/fang.html',
+            rect: {
+                x: 0,
+                y: $api.dom('header').offsetHeight,
+                w: 'auto',
+                h: screenHeight - 125
+            },
+            bounces:false,
+            scrollToTop:true
         });
 //        NVTabBar.setBadge({
 //            index: 3,

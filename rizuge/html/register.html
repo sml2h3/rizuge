@@ -154,7 +154,7 @@
                                         var target = setInterval(function(){
                                             $api.text(sendsms, num+"s");
                                             if(num < 1){
-                                                clearInterval(target)
+                                                clearInterval(target);
                                                 $api.addCls(sendsms,'aui-btn-primary');
                                                 $api.text(sendsms, "发送验证码");
                                             }

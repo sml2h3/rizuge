@@ -28,7 +28,6 @@
 <script>
     apiready = function () {
         var location_param = api.pageParam;
-        console.log(JSON.stringify(location_param));
         api.setCustomRefreshHeaderInfo({
             bgColor: '#eee',
             tips: {
@@ -61,7 +60,6 @@
                         }
                         var target_list = ret.content;
                         var el = $api.domAll('.fangObject');
-                        console.log(el.length);
                         if(el.length != 0){
                             for(var i = 0; i < el.length; i++){
                                 $api.remove(el[i]);
