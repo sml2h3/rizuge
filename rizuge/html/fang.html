@@ -63,6 +63,24 @@
         }else{
             getLocation()
         }
+        api.addEventListener({
+            //登陆成功以后的回调
+            name: 'fangopened'
+        },function(ret,err){
+            api.openFrame({
+                name: 'fanglist',
+                url: './fanglist.html',
+                rect: {
+                    x: 0,
+                    y: 75,
+                    w: 'auto',
+                    h: api.winHeight - 125
+//                            marginBottom: 50
+                },
+                bounces: true,
+                pageParam: param
+            });
+        });
         function getLocation(){
             map.getLocation({
                 accuracy: '10m',

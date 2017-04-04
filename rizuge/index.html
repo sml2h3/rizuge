@@ -143,6 +143,9 @@
                 switch(ret.index){
                     case 0:
                         //首页
+                        api.sendEvent({
+                            name: 'fangopened'
+                        });
                         api.openFrame({
                             name: 'fang',
                             url: './html/fang.html',
