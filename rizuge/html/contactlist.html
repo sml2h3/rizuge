@@ -85,7 +85,7 @@
             },
             fixedOn: api.frameName
         }, function(ret, err) {
-            if (ret) {
+            if (ret.eventType == 'clickContent') {
                 api.openWin({
                     name: 'cantact',
                     url: './contact.html',

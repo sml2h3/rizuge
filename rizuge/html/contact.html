@@ -99,7 +99,6 @@
     apiready = function () {
         $api.fixStatusBar($api.dom('header'));
         var UIChatBox = api.require('UIChatBox');
-        console.log(UIChatBox)
         UIChatBox.open({
             placeholder: '',
             maxRows: 4,
@@ -167,9 +166,7 @@
             }
         }, function(ret, err) {
             if (ret) {
-                alert(JSON.stringify(ret));
             } else {
-                alert(JSON.stringify(err));
             }
         });
     }
