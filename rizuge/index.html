@@ -11,6 +11,7 @@
     <style>
         header{ background-color: #f2f2f2;  line-height: 50px; font-size: 18px; text-align: center; }
         body{
+            margin:0px;
             padding: 0px;
             background-color: #eee;
         }
@@ -41,7 +42,7 @@
                     <span class="aui-iconfont aui-icon-down"style="color: #707070;" ></span>
                 </a>
                 <div class="aui-title" id="search_box">
-                    <div id="search_div">
+                    <div id="search_div" class="aui-ellipsis-1">
                         <span>商圈、景点、街道、小区</span>
                     </div>
                 </div>
@@ -274,7 +275,6 @@
                 bgColor: '#eee'
             }]
         }, function (ret, err) {
-
         });
         if(systemType === 'ios'){
             map.initMapSDK(function(ret,err) {
@@ -310,7 +310,7 @@
                             var location_city = document.getElementById('location');
                             $api.text(location_city, cityName);
                             api.sendEvent({
-                                name: 'getLocation',
+                                name: 'getlocation',
                                 extra: param
                             });
                         }
