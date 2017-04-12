@@ -67,6 +67,9 @@
             <div id="more" class="aui-bar aui-bar-nav aui-bar-light aui-hide">
                 <div class="aui-title">更多</div>
             </div>
+            <div id="contact" class="aui-bar aui-bar-nav aui-bar-light aui-hide">
+                <div class="aui-title">消息</div>
+            </div>
         </header>
         <div id="main" class="flex-con" >
 
@@ -209,6 +212,18 @@
                         break;
                     case 1:
                         //消息
+                        var header = $api.domAll('.aui-bar');
+                        for(var i = 0 ;i < header.length; i ++){
+                            if(!$api.hasCls(header[i],'aui-hide')){
+                                $api.addCls(header[i], 'aui-hide');
+                            }
+                        }
+                        $api.removeCls($api.dom('#contact'),'aui-hide');
+                        api.setFrameGroupIndex({
+                            name: 'home',
+                            index: 1,
+                            scroll: false
+                        });
                         break;
                     case 2:
                         //订单
@@ -217,7 +232,6 @@
                         //更多
                         var header = $api.domAll('.aui-bar');
                         for(var i = 0 ;i < header.length; i ++){
-                            console.log(header[i]);
                             if(!$api.hasCls(header[i],'aui-hide')){
                                 $api.addCls(header[i], 'aui-hide');
                             }
@@ -225,7 +239,7 @@
                         $api.removeCls($api.dom('#more'),'aui-hide');
                         api.setFrameGroupIndex({
                             name: 'home',
-                            index: 1,
+                            index: 2,
                             scroll: false
                         });
                         break;
@@ -237,7 +251,7 @@
         api.openFrameGroup({
             name: 'home',
             background: '#eee',
-            scrollEnabled: true,
+            scrollEnabled: false,
             rect: {
                 x: 0,
                 y: $api.dom('header').offsetHeight,
@@ -249,6 +263,10 @@
             frames: [{
                 name: 'fanglist',
                 url: './html/fanglist.html',
+                bgColor: '#eee'
+            }, {
+                name: 'contentlist',
+                url: './html/contactlist.html',
                 bgColor: '#eee'
             }, {
                 name: 'more',

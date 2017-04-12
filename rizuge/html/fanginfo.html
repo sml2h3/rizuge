@@ -15,6 +15,11 @@
         body{
             padding: 0px;
             background-color: #eee;
+            margin-top: 60px;
+            margin-bottom:60px;
+        }
+        #header{
+            position: fixed;
         }
         #footer{
             height:50px;
@@ -78,7 +83,7 @@
 </head>
 <body>
 <header class="aui-bar aui-bar-nav aui-bar-light" id="header">
-    <a class="aui-pull-left aui-btn">
+    <a class="aui-pull-left aui-btn" onclick="api.closeWin()">
         <span class="aui-iconfont aui-icon-left"></span>
     </a>
     <div class="aui-title">房源加载中...</div>
@@ -86,61 +91,63 @@
         <span class="aui-iconfont aui-icon-share"></span>
     </a>
 </header>
-<div id="aui-slide">
-    <div class="aui-slide-wrap" id="slide_box">
+<div>
+    <div id="aui-slide">
+        <div class="aui-slide-wrap" id="slide_box">
+        </div>
+        <div class="aui-slide-page-wrap"><!--分页容器--></div>
     </div>
-    <div class="aui-slide-page-wrap"><!--分页容器--></div>
-</div>
-<div class="aui-content">
-    <div class="row">
-        <div class="aui-col-xs-12" id="fang_title">
-            <h2><b>测试标题</b></h2>
-            <span>2017-4-12</span>
-            <span>76次浏览量</span>
-        </div>
-        <div class="aui-col-xs-12" id="fang_info">
-            <div class="aui-title" style="margin-bottom: 10px;">
-                房屋信息
+    <div class="aui-content">
+        <div class="row">
+            <div class="aui-col-xs-12" id="fang_title">
+                <h2><b>测试标题</b></h2>
+                <span>2017-4-12</span>
+                <span>76次浏览量</span>
             </div>
-            <div id="info_box">
-                <div>
-                    <label>房源地址</label>
-                    <span>天津市 宾水西道 姚村文博园</span>
+            <div class="aui-col-xs-12" id="fang_info">
+                <div class="aui-title" style="margin-bottom: 10px;">
+                    房屋信息
                 </div>
-                <div>
-                    <label>房源距我</label>
-                    <span>297米</span>
+                <div id="info_box">
+                    <div>
+                        <label>房源地址</label>
+                        <span>天津市 宾水西道 姚村文博园</span>
+                    </div>
+                    <div>
+                        <label>房源距我</label>
+                        <span>297米</span>
+                    </div>
+                    <div>
+                        <label>日租价格</label>
+                        <span>22元/天</span>
+                    </div>
                 </div>
-                <div>
-                    <label>日租价格</label>
-                    <span>22元/天</span>
+            </div>
+            <div class="aui-col-xs-12" id="gn">
+                <div class="aui-title" style="margin-bottom: 10px;">
+                    房屋功能
+                </div>
+                <div id="fanggn">
+                    <i class="iconfont icon-duwei"></i>
+                    <i class="iconfont icon-duwei"></i>
+                    <i class="iconfont icon-duwei"></i>
+                    <i class="iconfont icon-duwei"></i>
+                </div>
+            </div>
+            <div class="aui-col-xs-12" id="description">
+                <div class="aui-title" style="margin-bottom: 10px;">
+                    房源描述
+                </div>
+                <div id="descr_box">
+                    测试描述
                 </div>
             </div>
         </div>
-        <div class="aui-col-xs-12" id="gn">
-            <div class="aui-title" style="margin-bottom: 10px;">
-                房屋功能
-            </div>
-            <div id="fanggn">
-                <i class="iconfont icon-duwei"></i>
-                <i class="iconfont icon-duwei"></i>
-                <i class="iconfont icon-duwei"></i>
-                <i class="iconfont icon-duwei"></i>
-            </div>
-        </div>
-        <div class="aui-col-xs-12" id="description">
-            <div class="aui-title" style="margin-bottom: 10px;">
-                房源描述
-            </div>
-            <div id="descr_box">
-                测试描述
-            </div>
-        </div>
-    </div>
 
+    </div>
 </div>
 <footer class="aui-bar aui-bar-tab" id="footer">
-    <div class="aui-col-xs-12" id="contact">
+    <div class="aui-col-xs-12" id="contact" tap="">
         <div id="contact_btn">
             <i class="aui-iconfont aui-icon-comment"></i>
             <span>联系房东</span>
@@ -153,7 +160,8 @@
 <script type="text/javascript" src="../script/aui-slide.js"></script>
 <script>
         apiready = function () {
-            $api.fixStatusBar($api.dom('#header'))
+            $api.fixStatusBar($api.dom('#header'));
+            api.parseTapmode();
             var param = api.pageParam;
             var targetId = parseInt(param.Id);
             if(targetId > 0 || targetId != null){
@@ -231,5 +239,12 @@
                     global: true
                 });
             }
+            $api.addEvt($api.dom('#contact'),'click',function(){
+                api.openWin({
+                    name: 'cantact',
+                    url: './contact.html',
+                    pageParam: {name: 'pageparamname'}
+                });
+            })
         }
 </script>

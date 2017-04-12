@@ -1,0 +1,98 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>index</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/aui.css">
+    <style>
+        body{
+            padding: 0px;
+            background-color: #eee;
+        }
+    </style>
+</head>
+<body>
+</body>
+</html>
+<script type="text/javascript" src="../script/api.js"></script>
+<script>
+    apiready = function () {
+        var UIListView = api.require('UIListView');
+        UIListView.open({
+            rect: {
+                x: 0,
+                y: 0,
+                w: api.winWidth,
+                h: api.frameHeight
+            },
+            data: [{
+                uid: '1001',
+                imgPath: 'widget://image/demo5.png',
+                title: '房东昵称',
+                subTitle: '欢迎来租房',
+                icon: ''
+            },{
+                uid: '1003',
+                imgPath: 'widget://image/demo5.png',
+                title: '房东昵称',
+                subTitle: '子标题，说明文字',
+                icon: ''
+            },{
+                uid: '1004',
+                imgPath: 'widget://image/demo5.png',
+                title: '房东昵称',
+                subTitle: '子标题，说明文字',
+                icon: ''
+            },{
+                uid: '1005',
+                imgPath: 'widget://image/demo5.png',
+                title: '房东昵称',
+                subTitle: '子标题，说明文字',
+                icon: ''
+            }],
+            rightBtns:[{
+                bgColor: '#FF3300', //（可选项）字符串类型；按钮背景色，支持 rgb、rgba、#；默认：'#388e8e'
+                activeBgColor: '',  //（可选项）字符串类型；按钮按下时的背景色，支持 rgb、rgba、#
+                width: 90,          //（可选项）数字类型；按钮的宽度；默认：w / 4
+                title: '删除',          //（可选项）字符串类型；按钮标题，水平、垂直居中
+                titleSize: 20,      //（可选项）数字类型；按钮标题文字大小；默认：12
+                titleColor: '#fff', //（可选项）字符串类型；按钮标题文字颜色，支持 rgb、rgba、#；默认：'#ffffff'
+                icon: '',           //（可选项）字符串类型；按钮标题前的图标路径（本地路径，支持fs://、widget://），水平、垂直居中，图标为正方形
+                iconWidth: 20       //（可选项）数字类型；按钮标题前的图标宽度，图标为正方形；默认：20
+            }],
+            styles: {
+                borderColor: '#eee',
+                item: {
+                    bgColor: '#fff',
+                    activeBgColor: '#eee',
+                    height: 70.0,
+                    imgWidth: 65,
+                    imgHeight: 65,
+                    imgCorner: 4,
+                    placeholderImg: '',
+                    titleSize: 20.0,
+                    titleColor: '#000',
+                    subTitleSize: 16.0,
+                    subTitleColor: '#999999',
+                    remarkColor: '#000',
+                    remarkSize: 16,
+                    remarkIconWidth: 30
+                }
+            },
+            fixedOn: api.frameName
+        }, function(ret, err) {
+            if (ret) {
+                api.openWin({
+                    name: 'cantact',
+                    url: './contact.html',
+                    pageParam: {name: 'pageparamname'}
+                });
+            } else {
+            }
+        });
+    };
+</script>

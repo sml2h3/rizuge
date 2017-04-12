@@ -127,7 +127,6 @@
             //登陆成功以后的回调
             name: 'haslogin'
         }, function(ret, err) {
-            console.log(JSON.stringify(ret));
             var values = ret.value;
             access_token = values.access_token;
             api.ajax({
