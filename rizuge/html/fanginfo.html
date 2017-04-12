@@ -1,0 +1,235 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>index</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <!--<link rel="stylesheet" type="text/css" href="../css/style.css" />-->
+    <link rel="stylesheet" href="../css/aui.css">
+    <link rel="stylesheet" href="../css/aui-slide.css">
+    <link rel="stylesheet" href="../fonts/iconfont.css">
+    <style>
+        header{ background-color: #f2f2f2;  line-height: 50px; font-size: 18px; text-align: center; }
+        body{
+            padding: 0px;
+            background-color: #eee;
+        }
+        #footer{
+            height:50px;
+        }
+        #contact{
+            height:100%;
+            background-color: #CC3300;
+        }
+        #contact_btn{
+            color:#fff;
+            line-height: 50px;
+            font-size: 20px;
+        }
+        #fang_title{
+            padding:10px 20px;
+            background-color: #fff;
+            margin-bottom: 15px;
+        }
+        #fang_title span{
+            font-size: 12px;
+            color: #707070;
+        }
+        #gn{
+            background-color: #fff;
+            margin-bottom: 10px;
+            padding: 10px 20px;
+
+
+        }
+        #fanggn i{
+            display: inline-block;
+            height:40px;
+            width:40px;
+            border-radius: 20px;
+            border:1px solid #eeeeee;
+            text-align: center;
+            line-height: 40px;
+            font-size:20px;
+            color:#e0e0e0;
+        }
+        #fang_info{
+            background-color: #fff;
+            padding: 10px 20px;
+            margin-bottom: 15px;
+        }
+        #fang_info label{
+            font-size:14px;
+
+        }
+        #fang_info span{
+            font-size: 12px;
+            color: #707070;
+        }
+        #description{
+            background-color: #fff;
+            padding: 10px 20px;
+        }
+    </style>
+    <link rel="stylesheet" href="css/iconfont.css">
+
+</head>
+<body>
+<header class="aui-bar aui-bar-nav aui-bar-light" id="header">
+    <a class="aui-pull-left aui-btn">
+        <span class="aui-iconfont aui-icon-left"></span>
+    </a>
+    <div class="aui-title">房源加载中...</div>
+    <a class="aui-pull-right aui-btn aui-btn-outlined">
+        <span class="aui-iconfont aui-icon-share"></span>
+    </a>
+</header>
+<div id="aui-slide">
+    <div class="aui-slide-wrap" id="slide_box">
+    </div>
+    <div class="aui-slide-page-wrap"><!--分页容器--></div>
+</div>
+<div class="aui-content">
+    <div class="row">
+        <div class="aui-col-xs-12" id="fang_title">
+            <h2><b>测试标题</b></h2>
+            <span>2017-4-12</span>
+            <span>76次浏览量</span>
+        </div>
+        <div class="aui-col-xs-12" id="fang_info">
+            <div class="aui-title" style="margin-bottom: 10px;">
+                房屋信息
+            </div>
+            <div id="info_box">
+                <div>
+                    <label>房源地址</label>
+                    <span>天津市 宾水西道 姚村文博园</span>
+                </div>
+                <div>
+                    <label>房源距我</label>
+                    <span>297米</span>
+                </div>
+                <div>
+                    <label>日租价格</label>
+                    <span>22元/天</span>
+                </div>
+            </div>
+        </div>
+        <div class="aui-col-xs-12" id="gn">
+            <div class="aui-title" style="margin-bottom: 10px;">
+                房屋功能
+            </div>
+            <div id="fanggn">
+                <i class="iconfont icon-duwei"></i>
+                <i class="iconfont icon-duwei"></i>
+                <i class="iconfont icon-duwei"></i>
+                <i class="iconfont icon-duwei"></i>
+            </div>
+        </div>
+        <div class="aui-col-xs-12" id="description">
+            <div class="aui-title" style="margin-bottom: 10px;">
+                房源描述
+            </div>
+            <div id="descr_box">
+                测试描述
+            </div>
+        </div>
+    </div>
+
+</div>
+<footer class="aui-bar aui-bar-tab" id="footer">
+    <div class="aui-col-xs-12" id="contact">
+        <div id="contact_btn">
+            <i class="aui-iconfont aui-icon-comment"></i>
+            <span>联系房东</span>
+        </div>
+    </div>
+</footer>
+</body>
+</html>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/aui-slide.js"></script>
+<script>
+        apiready = function () {
+            $api.fixStatusBar($api.dom('#header'))
+            var param = api.pageParam;
+            var targetId = parseInt(param.Id);
+            if(targetId > 0 || targetId != null){
+                api.ajax({
+                    url: 'http://rzg.9170.gs/api/fang/getFangInfo',
+                    method: 'post',
+                    timeout: 30,
+                    dataType: 'json',
+                    returnAll: false,
+                    data: {
+                        values: {Fid: targetId}
+                    }
+                }, function (ret, err) {
+                    if(ret && ret.result === '1000'){
+                        var result = ret.reason;
+                        var info = result.info;
+                        var pic = result.pic;
+                        var html = "";
+                        for(var i = 0; i < pic.length; i++){
+                            html += '<div class="aui-slide-node bg-dark">';
+                            html += '<img src="http://rzg.9170.gs/'+pic[i].pic_path+'" />';
+                            html += '</div>';
+                        }
+                        document.getElementById('slide_box').innerHTML = html;
+                        var slide = new auiSlide({
+                            container:document.getElementById("aui-slide"),
+                            // "width":300,
+                            "height":260,
+                            "speed":300,
+                            "pageShow":true,
+                            "pageStyle":'line',
+                            "loop":true,
+                            'dotPosition':'center',
+                            currentPage:currentFun
+                        });
+                    }else{
+                        api.toast({
+                            msg: "房源不存在",
+                            duration: 2000,
+                            location: 'bottom',
+                            global: true
+                        });
+                    }
+                });
+                function currentFun(index) {
+                    console.log(index);
+                }
+    //            var slide2 = new auiSlide({
+    //                container:document.getElementById("aui-slide2"),
+    //                // "width":300,
+    //                "height":240,
+    //                "speed":300,
+    //                "autoPlay": 0, //自动播放
+    //                "pageShow":true,
+    //                "loop":true,
+    //                "pageStyle":'dot',
+    //                'dotPosition':'center'
+    //            })
+    //            var slide3 = new auiSlide({
+    //                container:document.getElementById("aui-slide3"),
+    //                // "width":300,
+    //                "height":240,
+    //                "speed":500,
+    //                "autoPlay": 3000, //自动播放
+    //                "loop":true,
+    //                "pageShow":true,
+    //                "pageStyle":'line',
+    //                'dotPosition':'center'
+    //            })
+            }else{
+                api.toast({
+                    msg: "房源不存在，请返回首页",
+                    duration: 2000,
+                    location: 'bottom',
+                    global: true
+                });
+            }
+        }
+</script>

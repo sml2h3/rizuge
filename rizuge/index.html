@@ -6,18 +6,68 @@
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
     <title>index</title>
     <link rel="stylesheet" type="text/css" href="./css/api.css" />
+    <link rel="stylesheet" href="css/aui.css">
     <link rel="stylesheet" type="text/css" href="./css/style.css" />
     <style>
-        header{ background-color: #f2f2f2;  line-height: 42px; font-size: 18px; text-align: center; }
+        header{ background-color: #f2f2f2;  line-height: 50px; font-size: 18px; text-align: center; }
         body{
             padding: 0px;
             background-color: #eee;
         }
+        #fang{
+            height:50px;
+        }
+        .header-icon{
+            margin:0.3rem;
+        }
+        .icon-font{
+            color:#707070;
+            font-size: 0.5rem;
+            line-height: 0.5rem;
+        }
+        .icon-div{
+            line-height:0.5rem;
+        }
     </style>
+    <link rel="stylesheet" href="css/iconfont.css">
+
 </head>
 <body>
     <div id="wrap" class="flex-wrap flex-vertical" >
-        <header></header>
+        <header id="header" class="fang">
+            <div id="fang" class="aui-bar aui-bar-nav aui-bar-light">
+                <a class="aui-pull-left aui-btn" style="color: #707070;">
+                    <span style="margin-right: 5px;" id="location">正在定位中</span>
+                    <span class="aui-iconfont aui-icon-down"style="color: #707070;" ></span>
+                </a>
+                <div class="aui-title" id="search_box">
+                    <div id="search_div">
+                        <span>商圈、景点、街道、小区</span>
+                    </div>
+                </div>
+                <a class="aui-pull-right">
+                    <div class="header-icon">
+                        <div>
+                            <span class="iconfont icon-filter" style="color:#707070;font-size:24px;"></span>
+                        </div>
+                        <div class="icon-div">
+                            <span class="icon-font">筛选</span>
+                        </div>
+                    </div>
+                    <div class="header-icon">
+                        <div>
+                            <span class="iconfont icon-heart" style="color:#707070;font-size:22px;color: red;"></span>
+                        </div>
+                        <div class="icon-div">
+                            <span class="icon-font">共享</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div id="more" class="aui-bar aui-bar-nav aui-bar-light aui-hide">
+                <div class="aui-title">更多</div>
+            </div>
+        </header>
         <div id="main" class="flex-con" >
 
         </div>
@@ -28,7 +78,7 @@
 <script type="text/javascript">
     apiready = function(){
         var screenHeight = api.winHeight;
-//        $api.fixStatusBar( $api.dom('header') );
+        $api.fixStatusBar( $api.dom('#header') );
         api.setStatusBarStyle({
             style: 'dark',
             color: '#6ab494'
@@ -143,21 +193,18 @@
                 switch(ret.index){
                     case 0:
                         //首页
-                        api.sendEvent({
-                            name: 'fangopened'
-                        });
-                        api.openFrame({
-                            name: 'fang',
-                            url: './html/fang.html',
-                            rect: {
-                                x: 0,
-                                y: $api.dom('header').offsetHeight,
-                                w: 'auto',
-                                h: screenHeight - 50
-                            },
-                            bounces:false,
-                            scrollToTop:true
-//                            reload:true
+                        var header = $api.domAll('.aui-bar');
+                        for(var i = 0 ;i < header.length; i ++){
+                            console.log(header[i]);
+                            if(!$api.hasCls(header[i],'aui-hide')){
+                                $api.addCls(header[i], 'aui-hide');
+                            }
+                        }
+                        $api.removeCls($api.dom('#fang'),'aui-hide');
+                        api.setFrameGroupIndex({
+                            name: 'home',
+                            index: 0,
+                            scroll: false
                         });
                         break;
                     case 1:
@@ -168,37 +215,168 @@
                         break;
                     case 3:
                         //更多
-                        api.openFrame({
-                            name: 'more',
-                            url: './html/more.html',
-                            rect: {
-                                x: 0,
-                                y: 0,
-                                w: 'auto',
-                                h: screenHeight - 50
-                            },
-                            bounces:false
+                        var header = $api.domAll('.aui-bar');
+                        for(var i = 0 ;i < header.length; i ++){
+                            console.log(header[i]);
+                            if(!$api.hasCls(header[i],'aui-hide')){
+                                $api.addCls(header[i], 'aui-hide');
+                            }
+                        }
+                        $api.removeCls($api.dom('#more'),'aui-hide');
+                        api.setFrameGroupIndex({
+                            name: 'home',
+                            index: 1,
+                            scroll: false
                         });
                         break;
                 }
             }
         });
-        api.openFrame({
-            name: 'fang',
-            url: './html/fang.html',
+        var map = api.require('bMap');
+        var systemType = api.systemType;
+        api.openFrameGroup({
+            name: 'home',
+            background: '#eee',
+            scrollEnabled: true,
             rect: {
                 x: 0,
                 y: $api.dom('header').offsetHeight,
                 w: 'auto',
-                h: screenHeight - 125
+                h: screenHeight-120
             },
-            bounces:false,
-            scrollToTop:true
-        });
-//        NVTabBar.setBadge({
-//            index: 3,
-//            badge: '3'
-//        });
+            index: 0,
+            preload: 2,
+            frames: [{
+                name: 'fanglist',
+                url: './html/fanglist.html',
+                bgColor: '#eee'
+            }, {
+                name: 'more',
+                url: './html/more.html',
+                bgColor: '#eee'
+            }]
+        }, function (ret, err) {
 
+        });
+        if(systemType === 'ios'){
+            map.initMapSDK(function(ret,err) {
+                if (ret.status) {
+                    getLocation()
+                }else{
+                    alert("定位失败，错误码:" + err.code);
+                    return;
+                }
+            });
+        }
+        function getLocation() {
+            map.getLocation({
+                accuracy: '10m',
+                autoStop: true,
+                filter: 1
+            }, function(ret, err) {
+                if (ret.status) {
+                    var lat = ret.lat;
+                    var lon = ret.lon;
+                    var param = {
+                        longitude: lon,
+                        latitude: lat
+                    };
+                    map.getNameFromCoords({
+                        lon: lon,
+                        lat: lat
+                    }, function(ret, err) {
+                        if (ret.status) {
+                            var cityName = ret.city;
+                            var location_city = document.getElementById('location');
+                            $api.text(location_city, cityName);
+                            api.sendEvent({
+                                name: 'getLocation',
+                                extra: param
+                            });
+                        }
+                    });
+                } else {
+                    alert(err.code);
+                }
+            });
+        }
+        var rong = api.require('rongCloud2');
+        rong.init(function(ret, err) {
+            if (ret.status === 'error'){
+                api.toast("系统初始化失败");
+            }else{
+                rong.setConnectionStatusListener(function(ret, err) {
+                    api.toast({ msg: ret.result.connectionStatus });
+                });
+                var access_token = $api.getStorage('access_token');
+                if(access_token != undefined){
+                    //已经登陆成功了
+                    api.ajax({
+                        url: 'http://rzg.9170.gs/api/user/getToken',
+                        method: 'post',
+                        timeout: 30,
+                        dataType: 'json',
+                        returnAll: false,
+                        data: {
+                            values: {access_token: access_token}
+                        }
+                    }, function (ret, err) {
+                        switch(ret.result){
+                            case 7000:
+                                //获取成功
+                                var token = ret.reason;
+
+                                rong.connect({token: token},function(ret, err) {
+                                    if (ret.status == 'success'){
+                                        api.toast({
+                                            msg: "服务器连接成功",
+                                            duration: 2000,
+                                            location: 'bottom',
+                                            global: true
+                                        })
+                                    }else{
+                                        api.toast({
+                                            msg: "服务器连接失败",
+                                            duration: 2000,
+                                            location: 'bottom',
+                                            global: true
+                                        })
+                                    }
+                                });
+                                break;
+                            case 7001:
+                                var reason = ret.reason;
+                                api.toast({
+                                    msg: "登录令牌已经失效，请重新登陆",
+                                    duration: 2000,
+                                    location: 'bottom',
+                                    global: true
+                                });
+                                api.clearStorage();
+                                break;
+                        }
+                    });
+                }
+            }
+        });
     };
+
+    //注册环信
+    function regrong(username,password) {
+        console.log(username);
+        var username = username;
+        var password = password;
+        var config = {
+            username: username,
+            password: password
+        };
+        huanxin.register(config,function(ret,err){
+            if(ret){
+                console.log(JSON.stringify(ret));
+            }else{
+                console.log(JSON.stringify(err));
+            }
+        });
+    }
+
 </script>

@@ -12,22 +12,35 @@
             background-color: #eee;
             height:0px;
         }
+        .aui-card-list-footer a{
+            color:#707070;
+        }
     </style>
     <link rel="stylesheet" href="../css/aui.css">
+    <link rel="stylesheet" href="../css/iconfont.css">
 </head>
 <body>
 <div id="wrap" class="flex-wrap flex-vertical" >
     <div id="main" class="flex-con" >
-
     </div>
 </div>
 </body>
 </html>
 
 <script type="text/javascript" src="../script/api.js"></script>
+<script src="../script/jquery.mobile-1.4.5.min.js"></script>
 <script>
     apiready = function () {
-        var location_param = api.pageParam;
+        var location_param = {
+            longitude: '',
+            latitude: ''
+        };
+        api.addEventListener({
+            name: 'getLocation'
+        },function(ret,err){
+            location_param = ret;
+            api.refreshHeaderLoading();
+        });
         api.setCustomRefreshHeaderInfo({
             bgColor: '#eee',
             tips: {
@@ -43,8 +56,8 @@
                 method: "post",
                 data: {
                     values:{
-                        lng: location_param.longitude.toString(),
-                        lat: location_param.latitude.toString()
+                        lng: location_param.value.longitude.toString(),
+                        lat: location_param.value.latitude.toString()
                     }
                 }
             },function (ret, err) {
@@ -84,36 +97,57 @@
                                 }else{
                                     distance += "m";
                                 }
-                                var html  = '<div class="fangObject">';//
-//                                html += '<div class="fanginfo">';//
-                                html += '<img src="http://rzg.9170.gs'+ img +'" class="fangimg" alt="">';
-                                html += '<div class="fanginfo_bottom aui-row">';//
-                                html += '<div class="distance_div aui-col-xs-3">';//
-                                html += '<i class="icon iconfont icon-location"></i>';
-                                html += '<span class="distance_span">' + distance + '</span>';
-                                html += '</div>';//
-                                html += '<div class="wz_div aui-col-xs-5">';//
-                                html += '<span class="wz_span">';
-                                html += community+room+"室"+lroom+"厅";
-                                html += '</span>';
-                                html += '</div>';//
-                                html += '<div class="fx_div aui-col-xs-2">';//
-                                html += '<span class="fx_span">';
+                                var html = '<div class="aui-card-list" tapmode="" target="'+Id+'">';
+                                html += '<div class="aui-card-list-content">';
+                                html += '<img src="http://rzg.9170.gs'+ img +'" />';
+                                html += "</div>";
+                                html += '<div class="aui-card-list-footer">';
+                                html += '<a class="aui-pull-left">';
+                                html += '<i class="iconfont icon-dingwei"></i>';
+                                html += '<span>'+distance+'</span>';
+                                html += '</a>';
+                                html += '<a  class="aui-title">';
+                                html += '<span>'+community+room+"室"+lroom+"厅"+'</span>';
+                                html += '<span>';
                                 html += f_type == 1?'独立房间':'多人合租';
                                 html += '</span>';
-                                html += '</div>';//
-                                html += '<div class="jg_div aui-col-xs-2">';
-                                html += '<span class="jg_span">';
-                                html += price+'元/天';
-                                html += '</span>';
+                                html += '</a>';
+                                html += '<a class="aui-pull-right">';
+                                html += '<span>'+price+'元</span>';
+                                html += '</a>';
                                 html += '</div>';
-                                html += '</div>';//
-//                                html += '</div>';//
-                                html += '</div>';//
+                                html += '</div>';
                                 var container = $api.byId('main');
-                                $api.append(container, html);
+                                var dom = $api.append(container, html);
                             }
                         }
+                        api.parseTapmode();
+                        $api.addEvt(dom,'click',function(e){
+                            var is = true;
+                            var d = e.target;
+                            while(is){
+                                if(d.classList == 'aui-card-list'){
+                                    break;
+                                }else{
+                                    d = d.parentNode;
+                                    continue;
+                                }
+                            }
+                            var targetId = $api.attr(d,'target');
+                            api.openWin({
+                                name: 'fanginfo',
+                                url: './fanginfo.html',
+                                pageParam: {Id: targetId},
+                                animation:{
+                                    type:"cube",                //动画类型（详见动画类型常量）
+                                    subType:"from_right",       //动画子类型（详见动画子类型常量）
+                                    duration:300
+                                },
+                                vScrollBarEnabled:false,
+                                scrollEnabled:true,
+                                bounce:false,
+                            });
+                        })
                     }else{
                         //获取失败
                         alert('获取房源信息失败');
@@ -124,6 +158,6 @@
                 api.refreshHeaderLoadDone()
             });
         });
+    };
 
-    }
 </script>

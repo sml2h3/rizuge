@@ -24,4 +24,7 @@
 		<param name="android_api_key" value="wnxvtS3Xipuey1sMmes6IXTEANywtXi3" />
 		<param name="ios_api_key" value="UGaqn4lcq6qCz86ED48GcW3eZmY6xk8f" />
 	</feature>
+	<feature name="rongCloud2">
+		<param name="appKey" value="0vnjpoad0c64z" />
+	</feature>
 </widget>

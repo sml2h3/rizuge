@@ -1,199 +1,26 @@
-html,body {  font-size:14px; height:100%;  }
-.hover{ opacity: .8; }
-
-.flex-wrap{ display: -webkit-box;	display: -webkit-flex;	display: flex; }
-.flex-con{     -webkit-box-flex: 1;     -webkit-flex: 1;    flex: 1;}
-.flex-vertical{ -webkit-box-orient: vertical;-webkit-flex-flow: column;flex-flow: column;}
-
-.border-t,
-.border-b{ position:relative;  }
-.border-t:before,
-.border-b:after{content: '';  position: absolute;  left: 0;  top:0;  background: #ddd;   right:0;    height: 1px;     -webkit-transform: scaleY(0.5);  transform: scaleY(0.5); -webkit-transform-origin: 0 0;  transform-origin: 0 0; }
-.border-b:after{ top:auto; bottom:0;  }
-
-#wrap{ height: 100%; }
-.location{
-    height: 100%;
-    /*border:1px solid blue;*/
-    text-align: center;
-    line-height: 52px;
-    font-size:16px;
-    font-weight: bolder;
-    color: #707070;
-    display: inline-block;
-}
-.location a{
-    color: #707070;
-    display: block;
-}
-.searchbox{
-    text-align: center;
-    display: inline-block;
-    height: 100%;
-    line-height: 52px;
+#fang{
     /*border:1px solid red;*/
-
 }
-.searchbox input{
-    display: block;
+#search_box{
+    padding: 10px 5px;
 }
-.optionbox{
-    height:100%;
-    display: inline-block;
-    line-height: 52px;
-}
-.optionbox a{
-    display: inline-block;
-    color:#707070;
-}
-#option_sr{
-    color:red;
-}
-.fangObject{
-    background-color: #eee;
-    margin:6px;
-    /*padding: 6px;*/
-    /*height:200px;*/
-    /*background-color: #ffffff;*/
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-}
-.fanginfo{
-    height:100%;
-    background-color: #eee;
-}
-.fanginfo_bottom{
-    display: block;
-    background-color: #ffffff;
-    height:40px;
-    border:1px solid #eee;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-}
-.fanginfo_bottom div{
-    display: inline-block;
-}
-.fangimg{
-    width:100%;
-    max-height: 220px;
-    display: block;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-}
-#fang_header{
-    background-color: white;
-}
-.distance_span, .wz_span, .fx_span, .jg_span{
-    color: #707070;
-    line-height: 40px;
-    font-size:14px;
-    height: 16px;
-    display: inline-block;
-    position: relative;
-    /*top:10px;*/
-}
-.wz_span, .fx_span, .jg_span{
-    /*top:5px;*/
-}
-.distance_span{
-    top:-3px;
-}
-/*.distance_div{*/
-    /*width:20%;*/
-/*}*/
-/*.wz_div{*/
-    /*text-align: center;*/
-    /*width:35%;*/
-/*}*/
-/*.fx_div{*/
-    /*text-align: center;*/
-    /*width:20%;*/
-/*}*/
-.jg_span{
-    color: red;
-}
-/*.jg_div{*/
-    /*text-align: center;*/
-    /*width:20%;*/
-/*}*/
-#search{
-    width: 95%;
-    margin-top: 11px;
-    margin-bottom: 11px;
+#search_div{
+    padding-top: 1px;
     height:30px;
-    line-height:30px;
-    border:0.5px solid #e5e5e5;
+    width:100%;
+    border:1px solid #eee;
     background-color: #eee;
     border-radius: 10px;
-    padding-left: 10px;
-    padding-right: 10px;
 }
-#search::placeholder{
+#search_div span{
+    /*position: absolute;*/
+    /*top:0px;*/
+    /*left:0px;*/
+    /*line-height: 30px;*/
     font-size: 14px;
-}
-
-@font-face {font-family: "iconfont";
-    src: url('../icon/iconfont.eot?t=1490984048895'); /* IE9*/
-    src: url('../icon/iconfont.eot?t=1490984048895#iefix') format('embedded-opentype'), /* IE6-IE8 */
-    url('../icon/iconfont.woff?t=1490984048895') format('woff'), /* chrome, firefox */
-    url('../icon/iconfont.ttf?t=1490984048895') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
-    url('../icon/iconfont.svg?t=1490984048895#iconfont') format('svg'); /* iOS 4.1- */
-}
-.icon-location{
-    display: inline-block;
-    margin-top: 2px;
-    /*padding-top: 15px;*/
-    padding-left: 10px;
+    /*display: inline-block;*/
     color:#707070;
 }
-.iconfont {
-    font-family:"iconfont" !important;
-    font-size:25px;
-    font-style:normal;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+#fang{
+    line-height: 1rem;
 }
-.icon-sanjiao{
-    font-size:10px;
-}
-.icon-shaixuan{
-    font-size: 15px;
-}
-.icon-xin{
-    font-size: 15px;
-}
-.icon-location:before { content: "\e600"; }
-
-.icon-order:before { content: "\e60b"; }
-
-.icon-xiaoxi:before { content: "\e613"; }
-
-.icon-zuobiao:before { content: "\e601"; }
-
-.icon-zaijia:before { content: "\e6ad"; }
-
-.icon-gr:before { content: "\e607"; }
-
-.icon-anfangzaijia:before { content: "\e725"; }
-
-.icon-anfangzaijia1:before { content: "\e730"; }
-
-.icon-shaixuan:before { content: "\e62d"; }
-
-.icon-xin:before { content: "\e631"; }
-
-.icon-shouye:before { content: "\e604"; }
-
-.icon-icon_cook:before { content: "\e608"; }
-
-.icon-yunxuzuofan:before { content: "\e62e"; }
-
-.icon-duwei:before { content: "\e867"; }
-
-.icon-shouyeshouye:before { content: "\e60c"; }
-
-.icon-sanjiao:before { content: "\e616"; }
-
-.icon-qiehuanfangdong:before { content: "\e693"; }
-
-.icon-xishuyongpin:before { content: "\e626"; }

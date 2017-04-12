@@ -91,6 +91,12 @@
 <script type="text/javascript" src="../script/api.js"></script>
 <script>
     apiready = function () {
+        var jsfun1 = 'reghx("13163125175","123456");';
+        api.execScript({
+            name: 'root',
+            script: jsfun1
+        });
+
         api.parseTapmode();
         $api.fixStatusBar($api.dom('header'));
         $api.addEvt($api.dom('.aui-icon-left'),'click',function () {
@@ -234,7 +240,12 @@
                             }
                         );
                         is_reg = true;
-                        api.closeFrame({
+                        var jsfun1 = 'reghx("'+phone+'","'+password+'");';
+                        api.execScript({
+                            name: 'root',
+                            script: jsfun1
+                        });
+                        api.closeWin({
                             name: 'register'
                         });
                         break;

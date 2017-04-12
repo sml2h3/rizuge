@@ -92,7 +92,7 @@
             });    
         });
         $api.addEvt($api.dom('#register_link'),'click',function () {
-            api.openFrame({
+            api.openWin({
                 name: 'register',
                 url: './register.html',
                 rect: {
@@ -162,7 +162,7 @@
                                 }
                             });
 
-                            api.closeFrame({
+                            api.closeWin({
                                 name: 'login'
                             });
                             break;
