@@ -1,0 +1,207 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>index</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <style>
+
+    </style>
+    <link rel="stylesheet" href="../css/aui.css">
+</head>
+<body>
+<section class="aui-chat">
+    <div class="aui-chat-header">2016年7月13日</div>
+    <div class="aui-chat-item aui-chat-left">
+        <div class="aui-chat-media">
+            <img src="../../image/demo2.png" />
+        </div>
+        <div class="aui-chat-inner">
+            <div class="aui-chat-name">AUI <span class="aui-label aui-label-warning">2.0</span></div>
+            <div class="aui-chat-content">
+                <div class="aui-chat-arrow"></div>
+                Hello AUI 2.0!
+            </div>
+            <div class="aui-chat-status aui-chat-status-refresh">
+                <i class="aui-iconfont aui-icon-correct aui-text-success"></i>
+            </div>
+        </div>
+    </div>
+    <div class="aui-chat-item aui-chat-right">
+        <div class="aui-chat-media">
+            <img src="../../image/liulangnan.png" />
+        </div>
+        <div class="aui-chat-inner">
+            <div class="aui-chat-name">流浪男</div>
+            <div class="aui-chat-content">
+                <div class="aui-chat-arrow"></div>
+                你好！
+            </div>
+            <div class="aui-chat-status">
+                <i class="aui-iconfont aui-icon-info aui-text-danger"></i>
+            </div>
+        </div>
+    </div>
+    <div class="aui-chat-item aui-chat-left">
+        <div class="aui-chat-media">
+            <img src="../../image/demo2.png" />
+        </div>
+        <div class="aui-chat-inner">
+            <div class="aui-chat-name">AUI <span class="aui-label aui-label-warning">2.0</span></div>
+            <div class="aui-chat-content">
+                <div class="aui-chat-arrow"></div>
+                <img src="../../image/l1.png" />
+            </div>
+        </div>
+    </div>
+    <div class="aui-chat-item aui-chat-right">
+        <div class="aui-chat-media">
+            <img src="../../image/liulangnan.png" />
+        </div>
+        <div class="aui-chat-inner">
+            <div class="aui-chat-name">流浪男</div>
+            <div class="aui-chat-content">
+                <div class="aui-chat-arrow"></div>
+                以前拍摄的牛背山星空
+            </div>
+        </div>
+    </div>
+    <div class="aui-chat-item aui-chat-left">
+        <div class="aui-chat-media">
+            <img src="../../image/demo2.png" />
+        </div>
+        <div class="aui-chat-inner">
+            <div class="aui-chat-name">AUI <span class="aui-label aui-label-warning">2.0</span></div>
+            <div class="aui-chat-content">
+                <div class="aui-chat-arrow"></div>
+                <img src="../../image/l2.png" />
+            </div>
+        </div>
+    </div>
+
+</section>
+</body>
+</html>
+<script type="text/javascript" src="../script/api.js"></script>
+<script>
+    apiready = function () {
+        param = api.pageParam;
+        var targetId = param.uid
+        var UIChatBox = api.require('UIChatBox');
+        UIChatBox.open({
+            placeholder: '',
+            maxRows: 4,
+            emotionPath: 'widget://image/emotion',
+            texts: {
+                recordBtn: {
+                    normalTitle: '按住说话',
+                    activeTitle: '松开结束'
+                },
+                sendBtn: {
+                    title: 'send'
+                }
+            },
+            styles: {
+                inputBar: {
+                    borderColor: '#d9d9d9',
+                    bgColor: '#f2f2f2'
+                },
+                inputBox: {
+                    borderColor: '#B3B3B3',
+                    bgColor: '#FFFFFF'
+                },
+                emotionBtn: {
+                    normalImg: 'widget://image/face1.png'
+                },
+                extrasBtn: {
+                    normalImg: 'widget://image/add1.png'
+                },
+                keyboardBtn: {
+                    normalImg: 'widget://image/key1.png'
+                },
+                speechBtn: {
+                    normalImg: 'widget://image/key1.png'
+                },
+                recordBtn: {
+                    normalBg: '#c4c4c4',
+                    activeBg: '#999999',
+                    color: '#000',
+                    size: 14
+                },
+                indicator: {
+                    target: 'both',
+                    color: '#c4c4c4',
+                    activeColor: '#9e9e9e'
+                },
+                sendBtn: {
+                    titleColor: '#4cc518',
+                    bg: '#999999',
+                    activeBg: '#46a91e',
+                    titleSize: 14
+                }
+            },
+            extras: {
+                titleSize: 10,
+                titleColor: '#a3a3a3',
+                btns: [{
+                    title: '图片',
+                    normalImg: 'widget://image/album1.png',
+                    activeImg: 'widget://image/album2.png'
+                }, {
+                    title: '拍照',
+                    normalImg: 'widget://image/cam1.png',
+                    activeImg: 'widget://image/cam2.png'
+                }]
+            }
+        }, function(ret, err) {
+            if (ret) {
+                if(ret.eventType == 'send'){
+                    api.sendEvent({
+                        name: 'sendText',
+                        extra: {target: targetId, text: ret.msg}
+                    });
+                }
+            } else {
+            }
+        });
+        api.addEventListener({
+            name: 'insertNewMsg'
+        },function (ret,err) {
+            if(ret.value.message.targetId == targetId){
+                insertNewMsg(ret)
+            }
+        });
+
+
+        function insertNewMsg(ret){
+            var html = '';
+            var message = ret.value.message;
+            if(message.messageDirection == "SEND"){
+                //发送
+                html += '<div class="aui-chat-item aui-chat-right">'
+            }else{
+                //接收
+                html += '<div class="aui-chat-item aui-chat-left">'
+            }
+            var msg = message.content.text;
+            html += '<div class="aui-chat-media">';
+            html += '<img src="../../image/demo2.png" />';
+            html += '</div>';
+            html += '<div class="aui-chat-inner">';
+            html += '<div class="aui-chat-name">AUI <span class="aui-label aui-label-warning">2.0</span></div>';
+            html += '<div class="aui-chat-content">';
+            html += '<div class="aui-chat-arrow"></div>';
+            html += msg;
+            html += '</div>';
+            html += '<div class="aui-chat-status aui-chat-status-refresh">';
+            html += '<i class="aui-iconfont aui-icon-correct aui-text-success"></i>';
+            html += '</div>';
+            html += '</div>';
+            html += '</div>';
+            $api.append($api.dom('.aui-chat'),html);
+        }
+    }
+</script>

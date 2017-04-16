@@ -104,7 +104,7 @@
                                 html += '<div class="aui-card-list-footer">';
                                 html += '<a class="aui-pull-left">';
                                 html += '<i class="iconfont icon-dingwei"></i>';
-                                html += '<span>'+distance+'</span>';
+                                html += '<span id="dis_'+Id+'">'+distance+'</span>';
                                 html += '</a>';
                                 html += '<a  class="aui-title">';
                                 html += '<span>'+community+room+"室"+lroom+"厅"+'</span>';
@@ -137,7 +137,10 @@
                             api.openWin({
                                 name: 'fanginfo',
                                 url: './fanginfo.html',
-                                pageParam: {Id: targetId},
+                                pageParam: {
+                                    Id: targetId,
+                                    dis: $api.text($api.dom('#dis_'+targetId))
+                                },
                                 animation:{
                                     type:"cube",                //动画类型（详见动画类型常量）
                                     subType:"from_right",       //动画子类型（详见动画子类型常量）

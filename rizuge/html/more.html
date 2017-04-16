@@ -76,6 +76,7 @@
                             }else{
                                 nickname = username;
                             }
+                            $api.setStorage('nickname',nickname);
                             if(tx !== undefined){
                                 $api.attr($api.dom('#tx'),'src',tx);
                             }
@@ -86,7 +87,7 @@
                             $api.text($api.dom('#status'),"尚未实名认证");
                             break;
                         case "4001":
-                            alert("登录信息已过期，请重新登陆");d
+                            alert("登录信息已过期，请重新登陆");
                             $api.rmStorage('access_token');
                             //需要重新登录
                             break;

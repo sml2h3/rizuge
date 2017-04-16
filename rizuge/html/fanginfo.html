@@ -86,7 +86,7 @@
     <a class="aui-pull-left aui-btn" onclick="api.closeWin()">
         <span class="aui-iconfont aui-icon-left"></span>
     </a>
-    <div class="aui-title">房源加载中...</div>
+    <div class="aui-title" id="header_title">房源加载中...</div>
     <a class="aui-pull-right aui-btn aui-btn-outlined">
         <span class="aui-iconfont aui-icon-share"></span>
     </a>
@@ -100,9 +100,9 @@
     <div class="aui-content">
         <div class="row">
             <div class="aui-col-xs-12" id="fang_title">
-                <h2><b>测试标题</b></h2>
-                <span>2017-4-12</span>
-                <span>76次浏览量</span>
+                <h2><b id="title" class="aui-ellipsis-2">(正在获取中...)</b></h2>
+                <span id="create_time">2017-4-12</span>
+                <span id="read_num" class="aui-ellipsis-1">(正在获取中...)次浏览量</span>
             </div>
             <div class="aui-col-xs-12" id="fang_info">
                 <div class="aui-title" style="margin-bottom: 10px;">
@@ -111,15 +111,15 @@
                 <div id="info_box">
                     <div>
                         <label>房源地址</label>
-                        <span>天津市 宾水西道 姚村文博园</span>
+                        <span id="location" class="aui-ellipsis-1">(正在获取中...)</span>
                     </div>
                     <div>
                         <label>房源距我</label>
-                        <span>297米</span>
+                        <span id="location_jl" class="aui-ellipsis-1">(正在获取中...)米</span>
                     </div>
                     <div>
                         <label>日租价格</label>
-                        <span>22元/天</span>
+                        <span id="price" class="aui-ellipsis-1">(正在获取中...)元/天</span>
                     </div>
                 </div>
             </div>
@@ -163,7 +163,9 @@
             $api.fixStatusBar($api.dom('#header'));
             api.parseTapmode();
             var param = api.pageParam;
+            var owner = '';
             var targetId = parseInt(param.Id);
+            var dis = param.dis;
             if(targetId > 0 || targetId != null){
                 api.ajax({
                     url: 'http://rzg.9170.gs/api/fang/getFangInfo',
@@ -177,6 +179,7 @@
                 }, function (ret, err) {
                     if(ret && ret.result === '1000'){
                         var result = ret.reason;
+
                         var info = result.info;
                         var pic = result.pic;
                         var html = "";
@@ -197,6 +200,27 @@
                             'dotPosition':'center',
                             currentPage:currentFun
                         });
+                        var title = info.fangName;
+                        var description = info.fangDescription;
+                        owner = info.fangBelongId;
+                        var fangLocation = info.fangLocation;
+                        var fangPrice = info.fangPrice;
+                        var province = info.fangProvince;
+                        var city = info.fangCity;
+                        var district = info.fangDistrict;
+                        var street = info.fangStreet;
+                        var room = info.room;
+                        var lroom = info.lroom;
+                        var type = info.f_type;
+                        var read_num = info.readnum;
+
+                        $api.text($api.dom('#title'),title);
+                        $api.text($api.dom('#read_num'),read_num+"次访问量");
+                        $api.text($api.dom('#location'),province + " " + city + " " + district + " " + street);
+                        $api.text($api.dom('#location_jl'),dis);
+                        $api.text($api.dom('#price'),fangPrice);
+                        $api.text($api.dom('#descr_box'),description);
+                        $api.text($api.dom('#header_title'),title);
                     }else{
                         api.toast({
                             msg: "房源不存在",
@@ -209,28 +233,6 @@
                 function currentFun(index) {
                     console.log(index);
                 }
-    //            var slide2 = new auiSlide({
-    //                container:document.getElementById("aui-slide2"),
-    //                // "width":300,
-    //                "height":240,
-    //                "speed":300,
-    //                "autoPlay": 0, //自动播放
-    //                "pageShow":true,
-    //                "loop":true,
-    //                "pageStyle":'dot',
-    //                'dotPosition':'center'
-    //            })
-    //            var slide3 = new auiSlide({
-    //                container:document.getElementById("aui-slide3"),
-    //                // "width":300,
-    //                "height":240,
-    //                "speed":500,
-    //                "autoPlay": 3000, //自动播放
-    //                "loop":true,
-    //                "pageShow":true,
-    //                "pageStyle":'line',
-    //                'dotPosition':'center'
-    //            })
             }else{
                 api.toast({
                     msg: "房源不存在，请返回首页",
@@ -239,11 +241,43 @@
                     global: true
                 });
             }
-            $api.addEvt($api.dom('#contact'),'click',function(){
+            $api.addEvt($api.dom('#footer'),'click',function(){
+                if($api.getStorage('access_token') == undefined){
+                    api.toast({
+                        msg: "您尚未登录账号，请先登录",
+                        duration: 2000,
+                        location: 'bottom',
+                        global: true
+                    });
+                    api.openWin({
+                        name: 'login',
+                        url: './login.html',
+                        rect: {
+                            x: 0,
+                            y: 0,
+                            w: 'auto',
+                            h: 'auto'
+                        },
+                        bounces: false,
+                        vScrollBarEnabled: false,
+                        scrollEnabled: false
+                    });
+                    return;
+                }
+                if(owner == null){
+                    api.toast({
+                        msg: "系统故障，无法联系房东。请确保网络正常后重试。",
+                        duration: 2000,
+                        location: 'bottom',
+                        global: true
+                    });
+                    return;
+                }
                 api.openWin({
                     name: 'cantact',
                     url: './contact.html',
-                    pageParam: {name: 'pageparamname'}
+                    pageParam: {uid: owner},
+                    bounces: false
                 });
             })
         }

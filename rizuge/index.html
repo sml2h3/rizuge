@@ -325,8 +325,14 @@
             if (ret.status === 'error'){
                 api.toast("系统初始化失败");
             }else{
+
                 rong.setConnectionStatusListener(function(ret, err) {
                     api.toast({ msg: ret.result.connectionStatus });
+                });
+                rong.setOnReceiveMessageListener(function(ret, err) {
+                    alert(JSON.stringify(ret));
+                    api.toast({ msg: JSON.stringify(ret.result.message) });
+                    api.toast({ msg: ret.result.message.left });
                 });
                 var access_token = $api.getStorage('access_token');
                 if(access_token != undefined){
@@ -345,9 +351,8 @@
                             case 7000:
                                 //获取成功
                                 var token = ret.reason;
-
                                 rong.connect({token: token},function(ret, err) {
-                                    if (ret.status == 'success'){
+                                    if (ret.status === 'success'){
                                         api.toast({
                                             msg: "服务器连接成功",
                                             duration: 2000,
@@ -372,31 +377,37 @@
                                     location: 'bottom',
                                     global: true
                                 });
-                                api.clearStorage();
+                                $api.rmStorage('access_token');
                                 break;
                         }
                     });
                 }
             }
         });
-    };
 
-    //注册环信
-    function regrong(username,password) {
-        console.log(username);
-        var username = username;
-        var password = password;
-        var config = {
-            username: username,
-            password: password
-        };
-        huanxin.register(config,function(ret,err){
-            if(ret){
-                console.log(JSON.stringify(ret));
-            }else{
-                console.log(JSON.stringify(err));
-            }
+        api.addEventListener({
+            name: 'sendText'
+        }, function(ret, err) {
+            var param = ret.value;
+            var target = param.target;
+            var text = param.text;
+            rong.sendTextMessage({
+                conversationType: 'PRIVATE',
+                targetId: target.toString(),
+                text: text.toString(),
+                extra: ''
+            }, function(ret, err) {
+                if (ret.status == 'prepare')
+                    api.sendEvent({
+                        name: 'insertNewMsg',
+                        extra: ret.result
+                    });
+                else if (ret.status == 'success')
+                    api.toast({ msg: ret.result.message.messageId });
+                else if (ret.status == 'error')
+                    api.toast({ msg: err.code });
+            });
         });
-    }
+    };
 
 </script>
