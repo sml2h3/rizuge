@@ -7,13 +7,12 @@
     <title>index</title>
     <link rel="stylesheet" type="text/css" href="../css/api.css" />
     <link rel="stylesheet" type="text/css" href="../css/style.css" />
-    <style>
-
-    </style>
     <link rel="stylesheet" href="../css/aui.css">
+    <style>
+    </style>
 </head>
 <body>
-<header class="aui-bar aui-bar-nav aui-bar-light" style="position: fixed">
+<header class="aui-bar aui-bar-nav aui-bar-light">
     <a class="aui-pull-left aui-btn" onclick="api.closeWin();">
         <span class="aui-iconfont aui-icon-left"></span>
     </a>
@@ -22,6 +21,9 @@
         <span class="aui-iconfont aui-icon-my"></span>
     </a>
 </header>
+<div id="wrap">
+
+</div>
 
 </body>
 </html>
@@ -31,6 +33,7 @@
     apiready = function () {
         $api.fixStatusBar($api.dom('header'));
         param = api.pageParam;
+
         api.openFrame({
             name: 'chat',
             url: './chat.html',
@@ -38,10 +41,16 @@
                 x: 0,
                 y: 70,
                 w: 'auto',
-                h: 'auto'
+                h: api.winHeight -110
             },
             pageParam: param,
             bounces: true
         });
+        api.addEventListener({
+            name:'setChatFrame'
+        },function(ret,err){
+//            alert(JSON.stringify(ret))
+
+        })
     }
 </script>

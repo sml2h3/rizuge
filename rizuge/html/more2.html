@@ -1,0 +1,215 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>index</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/aui.css">
+    <style>
+
+    </style>
+</head>
+<body>
+  <header>
+
+  </header>
+</body>
+</html>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript">
+  apiready = function(){
+    $api.fixStatusBar( $api.dom('header') );
+    var personalCenter = api.require('personalCenter');
+    var access_token = $api.getStorage('access_token');
+    var nickname = "未登录";
+    var tx = 'widget://image/logo.png';
+    var sharenum = '0';
+    var ordernum = '0';
+    var jfnum = '0';
+    var rightitle = "登陆";
+    var btnArray = [{
+            'bgImg': '',
+            'selectedImg': '',
+            'lightImg': '',
+            'title': '共享',
+            'count': sharenum
+        }, {
+            'bgImg': '',
+            'selectedImg': '',
+            'lightImg': '',
+            'title': '订单',
+            'count': ordernum
+        }, {
+            'bgImg': '',
+            'selectedImg': '',
+            'lightImg': '',
+            'title': '积分',
+            'count': jfnum
+        }];
+
+        var count = 382;
+
+        var y = 0;
+
+
+    personalCenter.open({
+        'y': y,
+        'h': 220,
+        'imgPath': tx,
+        'placeholderImg': tx,
+        'userName': nickname,
+        'count': count,
+        'modButton': {
+            'bgImg': 'widget://image/edit.png',
+            'lightImg': 'widget://res/personalCenter/mod_click.png'
+        },
+        'showRightBtn':true,
+        'buttonTitle': {
+            'right':'登录'
+        },
+        fixedOn: api.frameName,
+        'showLeftBtn': false,
+        'btnArray': btnArray
+    }, function(ret, err) {
+      if (btnArray.length === ret.click) {
+              api.confirm({
+                  title: '聊天盒子',
+                  msg: '您想要从哪里选取图片 ?',
+                  buttons: ['优雅自拍', '相册收藏', '取消']
+              }, function(ret, err) {
+                  var sourceType = 'album';
+
+                  if (3 == ret.buttonIndex) { // 取消
+                      return;
+                  }
+
+                  if (1 == ret.buttonIndex) { // 打开相机
+                      sourceType = 'camera';
+                  }
+
+                  api.getPicture({
+                      sourceType: sourceType,
+                      encodingType: 'png',
+                      mediaValue: 'pic'
+                  }, function(ret, err) {
+                      if (ret) {
+                          personalCenter.updateValue({
+                              imgPath: ret.data,
+                              count: count
+                          });
+                      }
+                  });
+
+              });
+              return;
+          }
+          //设置或者登陆
+          if (btnArray.length + 1 == ret.click) {
+            var access_token = $api.getStorage('access_token');
+            if(access_token === undefined){
+              api.openWin({
+                  name: 'login',
+                  url: './login.html',
+                  rect: {
+                      x: 0,
+                      y: 0,
+                      w: 'auto',
+                      h: 'auto'
+                  },
+                  bounces: false,
+                  vScrollBarEnabled: false,
+                  scrollEnabled: false
+              });
+            }
+        }
+      });
+    if(access_token !== undefined){
+        getInfo()
+    }else{
+
+    }
+  function getInfo(){
+    api.ajax({
+        url: 'http://rzg.9170.gs/api/user/userinfo',
+        method: 'post',
+        timeout: 30,
+        dataType: 'json',
+        returnAll: false,
+        data: {
+            values: {
+                access_token: access_token
+            }
+        }
+    }, function (ret, err) {
+        if(ret){
+            switch(ret.result){
+                case "4000":
+                    //已经认证过的用户
+                    var info = ret.reason;
+                    var username = info.username;
+                    var phone =  info.phone;
+                    var ttx = info.txpic;
+                    if(username === null){
+                        nickname = "用户"+phone;
+                    }else{
+                        nickname = username;
+                    }
+                    $api.setStorage('nickname',nickname);
+                    if(ttx !== undefined){
+                        tx = ttx
+                    }
+                    break;
+                case "4002":
+                    //未认证的用户
+                    var info = ret.reason;
+                    var username = info.username;
+                    var phone =  info.phone;
+                    var ttx = info.txpic;
+
+                    if(username === null){
+                        nickname = "用户"+phone;
+                    }else{
+                        nickname = username;
+                    }
+                    $api.setStorage('nickname',nickname);
+                    if(ttx !== undefined){
+                        tx = ttx
+                    }
+                    break;
+                case "4001":
+                    alert("登录信息已过期，请重新登陆");
+                    $api.rmStorage('access_token');
+                    //需要重新登录
+                    break;
+                default:
+                    alert(ret.reason)
+                    break;
+                  }
+                  personalCenter.updateValue({
+                      imgPath: tx,
+                      userName: nickname,
+                      btnArray: [{
+                          count: '123'
+                      }, {
+                          count: '123'
+                      }, {
+                          count: '123'
+                      }]
+                  });
+        }else{
+            alert(err.msg)
+        }
+    });
+  }
+  api.addEventListener({
+    name:'haslogin'
+  },function(ret,err){
+    var param = ret.value;
+    access_token = $api.getStorage('access_token');
+    getInfo()
+  })
+}
+</script>
